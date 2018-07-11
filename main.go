@@ -4,7 +4,7 @@ package main
 	1. Imgur Integration (Done)
 	2. Wallpaper Setting (Done)
 	3. Debugging (Done)
-	4. Optimization: Switch to indexed Lurker implementation
+	4. Optimization: Switch to indexed Lurker implementation, Change file name to Name, Bring binary data files
 	5. Command Line Options
 	6. Logging
 	.
@@ -69,13 +69,19 @@ func main() {
 	// after = string(bin)
 	// fmt.Println("After:", after)
 
-	harvest, err := script.Listing(fmt.Sprintf("/r/%s", subreddit), "t3_8mo8o8")
+	harvest, err := script.Listing(fmt.Sprintf("/r/%s", subreddit), "")
 	if err != nil {
 		fmt.Printf("[DEBUG] Failed to fetch /r/%s: %s", subreddit, err)
 		return
 	}
 	fmt.Println("[DEBUG] Post array length: ", len(harvest.Posts))
-	post := harvest.Posts[84]
+	postPermalinks := make([]string, 0, 100)
+	post := harvest.Posts[2]
+	for i := 0; i < 100; i++ {
+		post := harvest.Posts[i]
+		postPermalinks = append(postPermalinks, post.Permalink)
+	}
+	ioutil.WriteFile("postPermalinks", []byte(fmt.Sprintf("%#v", postPermalinks)), 0600)
 	// str := fmt.Sprintf("Harvest:\n %#v", harvest.Posts[1])
 	// ioutil.WriteFile("harvest", []byte(str), 0600)
 	ioutil.WriteFile(datafile, []byte(post.Name), 0600)
