@@ -2,8 +2,15 @@ package main
 
 /*
 	1. Imgur Integration (Done)
-	2. Wallpaper Setting
-	3. Debugging
+	2. Wallpaper Setting (Done)
+	3. Debugging (Done)
+	4. Optimization: Switch to indexed Lurker implementation
+	5. Command Line Options
+	6. Logging
+	.
+	.
+	.
+	NaN. Graphical User Interface
 */
 
 import (
@@ -21,7 +28,8 @@ var loc = "/home/pro/Dropbox/Code/golang/snoowall/Wallpapers/"
 var datafile = "data"
 var name = "info.agent"
 var path = fmt.Sprintf("%s%s", loc, name)
-var subreddit = "wallpapers"
+var index int
+var subreddit = "gmbwallpapers"
 
 func saveWall(b []byte) (file string, err error) {
 	timestamp := time.Now()
@@ -49,24 +57,29 @@ func setWall(file string) error {
 func main() {
 	rand.Seed(time.Now().UTC().UnixNano())
 	rate := 5 * time.Second
-	var after string
+
 	script, err := reddit.NewScript("graw:snoowall:0.3.1 by /u/psychemerchant", rate)
 	if err != nil {
 		fmt.Println("[DEBUG] Failed to create script handle: ", err)
 		return
 	}
-	harvest, err := script.Listing(fmt.Sprintf("/r/%s", subreddit), after)
+
+	// var after string
+	// bin, _ := ioutil.ReadFile(datafile)
+	// after = string(bin)
+	// fmt.Println("After:", after)
+
+	harvest, err := script.Listing(fmt.Sprintf("/r/%s", subreddit), "t3_8mo8o8")
 	if err != nil {
 		fmt.Printf("[DEBUG] Failed to fetch /r/%s: %s", subreddit, err)
 		return
 	}
-	post := harvest.Posts[rand.Intn(20)]
+	fmt.Println("[DEBUG] Post array length: ", len(harvest.Posts))
+	post := harvest.Posts[84]
 	// str := fmt.Sprintf("Harvest:\n %#v", harvest.Posts[1])
 	// ioutil.WriteFile("harvest", []byte(str), 0600)
-	// bin, _ := ioutil.ReadFile(datafile)
-	// after = string(bin)
-	// fmt.Println("After:", after)
-	// ioutil.WriteFile(datafile, []byte(post.Name), 0600)
+	ioutil.WriteFile(datafile, []byte(post.Name), 0600)
+	fmt.Println("After:", post.Name)
 	fmt.Printf("[Title]: %s\n[URL]: %s\n", post.Title, post.URL)
 	// fmt.Printf("[Type]: %s - %s - %s\n", post.Media.OEmbed.Type, post.Media.OEmbed.ProviderName, post.Media.OEmbed.ProviderURL)
 	// fmt.Printf("%+v", post)
