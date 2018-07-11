@@ -21,7 +21,7 @@ var loc = "/home/pro/Dropbox/Code/golang/snoowall/Wallpapers/"
 var datafile = "data"
 var name = "info.agent"
 var path = fmt.Sprintf("%s%s", loc, name)
-var subreddit = "EarthPorn"
+var subreddit = "gonenatural"
 
 func saveWall(b []byte) error {
 	timestamp := time.Now()
@@ -39,7 +39,7 @@ func setWall(file string) error {
 		fmt.Println("[DEBUG] Can't find previous wallpaper:", err)
 	}
 	fmt.Println("Current wallpaper:", background)
-	err = wallpaper.SetFromURL("https://i.imgur.com/pIwrYeM.jpg")
+	err = wallpaper.SetFromURL(file)
 	if err == nil {
 		fmt.Println("Wallpaper set!")
 	}
@@ -70,7 +70,10 @@ func main() {
 	fmt.Printf("[Title]: %s\n[URL]: %s\n", post.Title, post.URL)
 	// fmt.Printf("[Type]: %s - %s - %s\n", post.Media.OEmbed.Type, post.Media.OEmbed.ProviderName, post.Media.OEmbed.ProviderURL)
 	// fmt.Printf("%+v", post)
-	setWall(post.URL)
+	err = setWall(post.URL)
+	if err != nil {
+		fmt.Println("[DEBUG] Wallpaper setting error:", err)
+	}
 	resp, err := http.Get(post.URL)
 	if err != nil || post.IsRedditMediaDomain == false {
 		fmt.Println("[DEBUG]: Couldn't fetch resource:", post.URL, err)
