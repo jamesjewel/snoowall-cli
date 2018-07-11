@@ -31,14 +31,9 @@ var path = fmt.Sprintf("%s%s", loc, name)
 var index int
 var subreddit = "gmbwallpapers"
 
-func saveWall(b []byte) (file string, err error) {
-	timestamp := time.Now()
-	filename := fmt.Sprintf("%s%s_%s.jpg", loc, subreddit, timestamp.Format("2006-01-02_15-04-05"))
-	err = ioutil.WriteFile(filename, b, 0600)
-	if err == nil {
-		fmt.Println("Wallpaper saved!")
-	}
-	return filename, err
+func saveWall(filename string, b []byte) error {
+	err := ioutil.WriteFile(filename, b, 0600)
+	return err
 }
 
 func setWall(file string) error {
@@ -49,7 +44,7 @@ func setWall(file string) error {
 	fmt.Println("Current wallpaper:", background)
 	err = wallpaper.SetFromFile(file)
 	if err == nil {
-		fmt.Println("Wallpaper set!")
+		fmt.Println("Updated Wallpaper:", file)
 	}
 	return err
 }
@@ -74,21 +69,18 @@ func main() {
 		fmt.Printf("[DEBUG] Failed to fetch /r/%s: %s", subreddit, err)
 		return
 	}
-	fmt.Println("[DEBUG] Post array length: ", len(harvest.Posts))
+	// fmt.Println("[DEBUG] Post array length: ", len(harvest.Posts))
 	postPermalinks := make([]string, 0, 100)
-	post := harvest.Posts[2]
+	post := harvest.Posts[5]
 	for i := 0; i < 100; i++ {
 		post := harvest.Posts[i]
 		postPermalinks = append(postPermalinks, post.Permalink)
 	}
 	ioutil.WriteFile("postPermalinks", []byte(fmt.Sprintf("%#v", postPermalinks)), 0600)
-	// str := fmt.Sprintf("Harvest:\n %#v", harvest.Posts[1])
-	// ioutil.WriteFile("harvest", []byte(str), 0600)
+
 	ioutil.WriteFile(datafile, []byte(post.Name), 0600)
 	fmt.Println("After:", post.Name)
 	fmt.Printf("[Title]: %s\n[URL]: %s\n", post.Title, post.URL)
-	// fmt.Printf("[Type]: %s - %s - %s\n", post.Media.OEmbed.Type, post.Media.OEmbed.ProviderName, post.Media.OEmbed.ProviderURL)
-	// fmt.Printf("%+v", post)
 
 	resp, err := http.Get(post.URL)
 	if err != nil || post.IsRedditMediaDomain == false {
@@ -96,7 +88,11 @@ func main() {
 		return
 	}
 	body, _ := ioutil.ReadAll(resp.Body)
-	filename, _ := saveWall(body)
+	filename := fmt.Sprintf("%s%s_%s.jpg", loc, subreddit, post.ID)
+	err = saveWall(filename, body)
+	if err != nil {
+		fmt.Println("[DEBUG] Wallpaper saving error:", err)
+	}
 	err = setWall(filename)
 	if err != nil {
 		fmt.Println("[DEBUG] Wallpaper setting error:", err)
