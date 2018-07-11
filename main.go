@@ -21,16 +21,16 @@ var loc = "/home/pro/Dropbox/Code/golang/snoowall/Wallpapers/"
 var datafile = "data"
 var name = "info.agent"
 var path = fmt.Sprintf("%s%s", loc, name)
-var subreddit = "gonenatural"
+var subreddit = "wallpapers"
 
-func saveWall(b []byte) error {
+func saveWall(b []byte) (file string, err error) {
 	timestamp := time.Now()
 	filename := fmt.Sprintf("%s%s_%s.jpg", loc, subreddit, timestamp.Format("2006-01-02_15-04-05"))
-	err := ioutil.WriteFile(filename, b, 0600)
+	err = ioutil.WriteFile(filename, b, 0600)
 	if err == nil {
-		fmt.Println("Saved")
+		fmt.Println("Wallpaper saved!")
 	}
-	return err
+	return filename, err
 }
 
 func setWall(file string) error {
@@ -39,7 +39,7 @@ func setWall(file string) error {
 		fmt.Println("[DEBUG] Can't find previous wallpaper:", err)
 	}
 	fmt.Println("Current wallpaper:", background)
-	err = wallpaper.SetFromURL(file)
+	err = wallpaper.SetFromFile(file)
 	if err == nil {
 		fmt.Println("Wallpaper set!")
 	}
@@ -70,16 +70,18 @@ func main() {
 	fmt.Printf("[Title]: %s\n[URL]: %s\n", post.Title, post.URL)
 	// fmt.Printf("[Type]: %s - %s - %s\n", post.Media.OEmbed.Type, post.Media.OEmbed.ProviderName, post.Media.OEmbed.ProviderURL)
 	// fmt.Printf("%+v", post)
-	err = setWall(post.URL)
-	if err != nil {
-		fmt.Println("[DEBUG] Wallpaper setting error:", err)
-	}
+
 	resp, err := http.Get(post.URL)
 	if err != nil || post.IsRedditMediaDomain == false {
 		fmt.Println("[DEBUG]: Couldn't fetch resource:", post.URL, err)
 		return
 	}
 	body, _ := ioutil.ReadAll(resp.Body)
-	saveWall(body)
+	filename, _ := saveWall(body)
+	err = setWall(filename)
+	if err != nil {
+		fmt.Println("[DEBUG] Wallpaper setting error:", err)
+		return
+	}
 
 }
