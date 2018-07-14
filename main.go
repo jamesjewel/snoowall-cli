@@ -1,12 +1,13 @@
 package main
 
 /*
-	1. Imgur Integration (Done)
+	1. Imgur Integration
 	2. Wallpaper Setting (Done)
 	3. Debugging (Done)
-	4. Optimization: Switch to indexed Lurker implementation, Change file name to Name, Bring binary data files
-	5. Command Line Options
+	4. Optimization: Switch to indexed Lurker implementation, Change file name to Name (Done), Bring binary data files
+	5. Command Line Options (Done)
 	6. Logging
+	7. Configuration File
 	.
 	.
 	.
@@ -14,6 +15,7 @@ package main
 */
 
 import (
+	"flag"
 	"fmt"
 	"io/ioutil"
 	"math/rand"
@@ -29,7 +31,8 @@ var datafile = "data"
 var name = "info.agent"
 var path = fmt.Sprintf("%s%s", loc, name)
 var index int
-var subreddit = "gmbwallpapers"
+var subreddit = "wallpaper"
+var top = false
 
 func saveWall(filename string, b []byte) error {
 	err := ioutil.WriteFile(filename, b, 0600)
@@ -49,37 +52,47 @@ func setWall(file string) error {
 	return err
 }
 
+/*
+	The main code
+*/
 func main() {
 	rand.Seed(time.Now().UTC().UnixNano())
-	rate := 5 * time.Second
 
+	flag.StringVar(&subreddit, "s", "wallpaper", "Specify the subreddit to fetch wallpapers from.")
+	flag.BoolVar(&top, "t", false, "Select the top wallpaper instead of a random one.")
+	flag.IntVar(&index, "i", 1, "Post index (0-99)")
+	flag.Parse()
+	fmt.Println("[DEBUG] Arguments: s:", subreddit, "t:", top, "i:", index, flag.Args())
+
+	rate := 5 * time.Second
 	script, err := reddit.NewScript("graw:snoowall:0.3.1 by /u/psychemerchant", rate)
 	if err != nil {
 		fmt.Println("[DEBUG] Failed to create script handle: ", err)
 		return
 	}
 
-	// var after string
-	// bin, _ := ioutil.ReadFile(datafile)
-	// after = string(bin)
-	// fmt.Println("After:", after)
-
 	harvest, err := script.Listing(fmt.Sprintf("/r/%s", subreddit), "")
 	if err != nil {
 		fmt.Printf("[DEBUG] Failed to fetch /r/%s: %s", subreddit, err)
 		return
 	}
-	// fmt.Println("[DEBUG] Post array length: ", len(harvest.Posts))
-	postPermalinks := make([]string, 0, 100)
-	post := harvest.Posts[5]
-	for i := 0; i < 100; i++ {
-		post := harvest.Posts[i]
-		postPermalinks = append(postPermalinks, post.Permalink)
+	var post *reddit.Post
+	if top == true {
+		post = harvest.Posts[index]
+	} else if top == false {
+		post = harvest.Posts[rand.Intn(99)]
 	}
-	ioutil.WriteFile("postPermalinks", []byte(fmt.Sprintf("%#v", postPermalinks)), 0600)
 
-	ioutil.WriteFile(datafile, []byte(post.Name), 0600)
-	fmt.Println("After:", post.Name)
+	// fmt.Println("[DEBUG] Post array length: ", len(harvest.Posts))
+	// postPermalinks := make([]string, 0, 100)
+	// for i := 0; i < 100; i++ {
+	// 	post := harvest.Posts[i]
+	// 	postPermalinks = append(postPermalinks, post.Permalink)
+	// }
+	// ioutil.WriteFile("postPermalinks", []byte(fmt.Sprintf("%#v", postPermalinks)), 0600)
+
+	// ioutil.WriteFile(datafile, []byte(post.Name), 0600)
+	// fmt.Println("After:", post.Name)
 	fmt.Printf("[Title]: %s\n[URL]: %s\n", post.Title, post.URL)
 
 	resp, err := http.Get(post.URL)
