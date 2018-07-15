@@ -1,14 +1,15 @@
 package main
 
 /*
-	1. Imgur Integration
+	1. Imgur Integration (Done)
 	2. Wallpaper Setting (Done)
 	3. Debugging (Done)
 	4. Optimization: Switch to indexed Lurker implementation, Change file name to Name (Done), Bring binary data files
 	5. Command Line Options (Done)
 	6. Logging
 	7. Configuration File
-	.
+	8. PNG Problem (Done)
+	9. NSFW
 	.
 	.
 	NaN. Graphical User Interface
@@ -31,8 +32,8 @@ var datafile = "data"
 var name = "info.agent"
 var path = fmt.Sprintf("%s%s", loc, name)
 var index int
-var subreddit = "wallpaper"
-var top = false
+var subreddit string
+var top bool
 
 func saveWall(filename string, b []byte) error {
 	err := ioutil.WriteFile(filename, b, 0600)
@@ -60,7 +61,7 @@ func main() {
 
 	flag.StringVar(&subreddit, "s", "wallpaper", "Specify the subreddit to fetch wallpapers from.")
 	flag.BoolVar(&top, "t", false, "Select the top wallpaper instead of a random one.")
-	flag.IntVar(&index, "i", 1, "Post index (0-99)")
+	flag.IntVar(&index, "i", 0, "Post index (0-99)")
 	flag.Parse()
 	fmt.Println("[DEBUG] Arguments: s:", subreddit, "t:", top, "i:", index, flag.Args())
 
@@ -76,7 +77,9 @@ func main() {
 		fmt.Printf("[DEBUG] Failed to fetch /r/%s: %s", subreddit, err)
 		return
 	}
+
 	var post *reddit.Post
+l:
 	if top == true {
 		post = harvest.Posts[index]
 	} else if top == false {
@@ -96,12 +99,18 @@ func main() {
 	fmt.Printf("[Title]: %s\n[URL]: %s\n", post.Title, post.URL)
 
 	resp, err := http.Get(post.URL)
-	if err != nil || post.IsRedditMediaDomain == false {
+	filetype := post.URL[len(post.URL)-4:]
+	if filetype != ".jpg" && filetype != ".png" {
+		fmt.Println("[DEBUG] Not an image.")
+		goto l
+	}
+	fmt.Println("[DEBUG] Image Type:", filetype)
+	if err != nil {
 		fmt.Println("[DEBUG]: Couldn't fetch resource:", post.URL, err)
 		return
 	}
 	body, _ := ioutil.ReadAll(resp.Body)
-	filename := fmt.Sprintf("%s%s_%s.jpg", loc, subreddit, post.ID)
+	filename := fmt.Sprintf("%s%s_%s.%s", loc, subreddit, post.ID, filetype)
 	err = saveWall(filename, body)
 	if err != nil {
 		fmt.Println("[DEBUG] Wallpaper saving error:", err)
