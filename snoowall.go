@@ -64,7 +64,7 @@ func main() {
 	flag.IntVar(&index, "index", 1, "Post index (0-99)")
 	flag.BoolVar(&nsfw, "allow-nsfw", false, "Gives a pass to NSFW content that is blocked by default")
 	flag.Parse()
-	fmt.Printf("[DEBUG] Arguments: s:%s;  t:%t;  i:%d;  allow-nsfw:%t; Tail:%v", subreddit, top, index, nsfw, flag.Args())
+	fmt.Printf("[DEBUG] Arguments: sub:%s;  top:%t;  index:%d;  allow-nsfw:%t;  tail:%v\n", subreddit, top, index, nsfw, flag.Args())
 
 	rate := 5 * time.Second
 	script, err := reddit.NewScript("graw:snoowall:0.3.1 by /u/psychemerchant", rate)
@@ -89,7 +89,9 @@ retry:
 	if nsfw == false {
 		if post.NSFW == true {
 			fmt.Println("[DEBUG] Post is NSFW")
-			goto retry
+			if top == false {
+				goto retry
+			}
 		}
 	}
 
