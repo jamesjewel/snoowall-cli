@@ -27,7 +27,7 @@ import (
 	"github.com/turnage/graw/reddit"
 )
 
-var loc = "/home/pro/Dropbox/Code/golang/snoowall/Wallpapers/"
+var loc = "/home/pro/Dropbox/Code/golang/snoowall/wallpapers/"
 var datafile = "data"
 var name = "info.agent"
 var path = fmt.Sprintf("%s%s", loc, name)
