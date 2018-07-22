@@ -10,17 +10,17 @@ snoowall [-sub subreddit] [-top] [-allow-nsfw] [-sync]
 
 Options : 
 ```bash
--sub:  
+-sub 
             Name of the subreddit to fetch images from. 
             If ommitted, defaults to 'wallpaper'.
 
--top: 
+-top 
             Fetches the top image instead of a random one.
 
--allow-nsfw: 
+-allow-nsfw
             Gives a pass to NSFW content that is blocked by default.
 
--sync:  
+-sync
             Manually refresh the post cache.
 ```
 
