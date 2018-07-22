@@ -1,0 +1,8 @@
+2018/07/22 09:50:18 This is a test log entry
+2018/07/22 09:51:18 This is a test log entry
+2018/07/22 09:52:58 This is a test log entry
+2018/07/22 09:52:59 [DEBUG]: No posts! Subreddit might not exist.
+2018/07/22 09:53:15 This is a test log entry
+2018/07/22 09:53:15 [DEBUG] Failed to fetch /r/earthport: unauthorized access to endpoint
+2018/07/22 09:53:32 This is a test log entry
+2018/07/22 09:53:33 [DEBUG]: No posts! Subreddit might not exist.
