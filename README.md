@@ -4,24 +4,24 @@
 
 ## Usage
 
-```bash\
+```bash
 snoowall [-sub subreddit] [-top] [-allow-nsfw] [-sync]
 ```
 
 Options : 
-```bash\
+```bash
 -sub:  
-      Name of the subreddit to fetch images from. 
-      If ommitted, defaults to 'wallpaper'.
+            Name of the subreddit to fetch images from. 
+            If ommitted, defaults to 'wallpaper'.
 
 -top: 
-      Fetches the top image instead of a random one.
+            Fetches the top image instead of a random one.
 
-`-allow-nsfw`: 
-      Gives a pass to NSFW content that is blocked by default.
+-allow-nsfw: 
+            Gives a pass to NSFW content that is blocked by default.
 
-`-sync`:  
-      Manually refresh the post cache.
+-sync:  
+            Manually refresh the post cache.
 ```
 
 
