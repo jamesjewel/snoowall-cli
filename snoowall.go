@@ -99,6 +99,12 @@ func main() {
 		return
 	}
 
+	// if cache does not exist, sync
+	cacheloc := fmt.Sprintf("%s/%s", "cache", subreddit)
+	if _, err := os.Stat(cacheloc); os.IsNotExist(err) {
+		sync = true
+	}
+
 	// generating cache
 	if sync == true {
 		if _, err := os.Stat("cache"); os.IsNotExist(err) {
@@ -130,12 +136,13 @@ func main() {
 		if err != nil {
 			log.Println("[ERROR]: Encoding error", err)
 		}
-		ioutil.WriteFile(fmt.Sprintf("%s/%s", "cache", subreddit), buff.Bytes(), 0600)
+		ioutil.WriteFile(cacheloc, buff.Bytes(), 0600)
+		log.Printf("[INFO] Syncing /r/%s to %s", subreddit, cacheloc)
 	}
 
 	data, err := ioutil.ReadFile(fmt.Sprintf("%s/%s", "cache", subreddit))
 	if err != nil {
-		log.Fatalln("[ERROR]: Cache file reatimed error.")
+		log.Fatalln("[ERROR]: Cache file read error.")
 	}
 	dec := gob.NewDecoder(bytes.NewReader(data))
 	var cursubdata saveData
