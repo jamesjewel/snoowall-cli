@@ -4,15 +4,17 @@ package main
 	1. Imgur Integration (Done)
 	2. Wallpaper Setting (Done)
 	3. Debugging (Done)
-	4. Optimization: Switch to indexed Lurker implementation
+	4. Optimization: Switch to indexed Lurker implementation (Done)
 						  Change file name to Name (Done)
-						  Bring binary data files
+						  Bring binary data files (Done)
 	5. Command Line Options (Done)
 	6. Logging (Done) -> Improvements
 	7. Configuration File
 	8. PNG Problem (Done)
 	9. NSFW (Done)
-	10. Develop Syncing
+	10. Develop Syncing (Done)
+	11. Auto Syncing
+	12. Sync Randomizer
 
 	NaN. Graphical User Interface
 */
@@ -54,9 +56,15 @@ func setWall(file string) error {
 	err = wallpaper.SetFromFile(file)
 	if err == nil {
 		fmt.Println("Updated Wallpaper:", file)
-		log.Println("[INFO] Updated wallpaper:", background)
+		log.Println("[INFO] Updated wallpaper:", file)
 	}
 	return err
+}
+
+type saveData struct {
+	Time       time.Time
+	Subreddit  string
+	Permalinks []string
 }
 
 /*
@@ -101,7 +109,10 @@ func main() {
 			log.Fatalf("[FATAL] Failed to fetch /r/%s: %s", subreddit, err)
 			return
 		}
-		postPermalinks := make([]string, 0, 100)
+		var subdata saveData
+		subdata.Time = time.Now()
+		subdata.Subreddit = subreddit
+		var postPermalinks []string
 		length := len(harvest.Posts)
 		if length == 0 {
 			log.Println("[ERROR]: No posts! Subreddit might not exist.")
@@ -111,28 +122,30 @@ func main() {
 			post := harvest.Posts[i]
 			postPermalinks = append(postPermalinks, post.Permalink)
 		}
+		subdata.Permalinks = postPermalinks
+
 		var buff bytes.Buffer
 		enc := gob.NewEncoder(&buff)
-		err = enc.Encode(postPermalinks)
+		err = enc.Encode(subdata)
 		if err != nil {
-			log.Println("[ERROR]: Encoding error")
+			log.Println("[ERROR]: Encoding error", err)
 		}
 		ioutil.WriteFile(fmt.Sprintf("%s/%s", "cache", subreddit), buff.Bytes(), 0600)
 	}
 
 	data, err := ioutil.ReadFile(fmt.Sprintf("%s/%s", "cache", subreddit))
 	if err != nil {
-		log.Fatalln("[ERROR]: Cache file read error.")
+		log.Fatalln("[ERROR]: Cache file reatimed error.")
 	}
 	dec := gob.NewDecoder(bytes.NewReader(data))
-	postPermalinks := make([]string, 0, 100)
-	dec.Decode(&postPermalinks)
+	var cursubdata saveData
+	dec.Decode(&cursubdata)
 	var postPermalink string
 retry:
 	if top == true {
-		postPermalink = postPermalinks[index]
+		postPermalink = cursubdata.Permalinks[index]
 	} else if top == false {
-		postPermalink = postPermalinks[rand.Intn(len(postPermalinks))]
+		postPermalink = cursubdata.Permalinks[rand.Intn(len(cursubdata.Permalinks))]
 	}
 	// thread fetching
 	var post *reddit.Post
@@ -154,7 +167,7 @@ retry:
 		return
 	}
 	body, _ := ioutil.ReadAll(resp.Body)
-	loc := fmt.Sprintf("%s/%s", os.Getenv("HOME"), "/Pictures/Wallpapers/")
+	loc := fmt.Sprintf("%s/%s", os.Getenv("HOME"), "Pictures/Wallpapers/")
 	filename := fmt.Sprintf("%s%s_%s%s", loc, subreddit, post.ID, filetype)
 	err = saveWall(filename, body)
 	if err != nil {
