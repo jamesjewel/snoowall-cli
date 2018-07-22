@@ -8,13 +8,16 @@ package main
 						  Change file name to Name (Done)
 						  Bring binary data files (Done)
 	5. Command Line Options (Done)
-	6. Logging (Done) -> Improvements
+	6. Logging (Done) -> Improvement
 	7. Configuration File
 	8. PNG Problem (Done)
 	9. NSFW (Done)
 	10. Develop Syncing (Done)
-	11. Auto Syncing
+	11. Auto Syncing (Donte)
 	12. Sync Randomizer
+	. 	 Selective Harvest?
+	.
+	.
 
 	NaN. Graphical User Interface
 */
@@ -71,8 +74,6 @@ type saveData struct {
 	The main code
 */
 func main() {
-	rand.Seed(time.Now().UTC().UnixNano())
-
 	// collect flags
 	flag.StringVar(&subreddit, "sub", "wallpaper", "Specify the subreddit to fetch wallpapers from.")
 	flag.BoolVar(&top, "top", false, "Select the top wallpaper instead of a random one.")
@@ -137,7 +138,7 @@ func main() {
 			log.Println("[ERROR]: Encoding error", err)
 		}
 		ioutil.WriteFile(cacheloc, buff.Bytes(), 0600)
-		log.Printf("[INFO] Syncing /r/%s to %s", subreddit, cacheloc)
+		log.Printf("[INFO] Synced /r/%s to %s", subreddit, cacheloc)
 	}
 
 	data, err := ioutil.ReadFile(fmt.Sprintf("%s/%s", "cache", subreddit))
@@ -161,6 +162,15 @@ retry:
 		log.Fatalf("[FATAL] Failed to fetch post: %s err:%s", postPermalink, err)
 	}
 
+	// if allow-nsfw - false, nsfw check, retry
+	if nsfw == false {
+		if post.NSFW == true {
+			fmt.Println("[DEBUG] Post is NSFW")
+			if top == false {
+				goto retry
+			}
+		}
+	}
 	fmt.Printf("[Title]: %s\n[URL]: %s\n", post.Title, post.URL)
 	resp, err := http.Get(post.URL)
 	filetype := post.URL[len(post.URL)-4:]
