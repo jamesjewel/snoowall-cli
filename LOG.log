@@ -1,8 +1,39 @@
-2018/07/22 09:50:18 This is a test log entry
-2018/07/22 09:51:18 This is a test log entry
-2018/07/22 09:52:58 This is a test log entry
-2018/07/22 09:52:59 [DEBUG]: No posts! Subreddit might not exist.
-2018/07/22 09:53:15 This is a test log entry
-2018/07/22 09:53:15 [DEBUG] Failed to fetch /r/earthport: unauthorized access to endpoint
-2018/07/22 09:53:32 This is a test log entry
-2018/07/22 09:53:33 [DEBUG]: No posts! Subreddit might not exist.
+2018/07/22 10:19:41 snoowall.go:106: [DEBUG]: No posts! Subreddit might not exist.
+2018/07/22 10:19:58 snoowall.go:136: [DEBUG] Not an image.
+2018/07/22 10:19:59 snoowall.go:136: [DEBUG] Not an image.
+2018/07/22 10:20:00 snoowall.go:136: [DEBUG] Not an image.
+2018/07/22 10:23:34 snoowall.go:57: [INFO] Updated wallpaper: /home/pro//Pictures/Wallpapers/nofap_90ncz3.jpg
+2018/07/22 10:23:49 snoowall.go:138: [ERROR] Not an image.
+2018/07/22 10:23:49 snoowall.go:138: [ERROR] Not an image.
+2018/07/22 10:23:49 snoowall.go:138: [ERROR] Not an image.
+2018/07/22 10:23:51 snoowall.go:138: [ERROR] Not an image.
+2018/07/22 10:23:51 snoowall.go:138: [ERROR] Not an image.
+2018/07/22 10:23:51 snoowall.go:138: [ERROR] Not an image.
+2018/07/22 10:23:52 snoowall.go:138: [ERROR] Not an image.
+2018/07/22 10:23:52 snoowall.go:138: [ERROR] Not an image.
+2018/07/22 10:23:53 snoowall.go:138: [ERROR] Not an image.
+2018/07/22 10:23:53 snoowall.go:138: [ERROR] Not an image.
+2018/07/22 10:23:53 snoowall.go:138: [ERROR] Not an image.
+2018/07/22 10:23:54 snoowall.go:138: [ERROR] Not an image.
+2018/07/22 10:23:54 snoowall.go:138: [ERROR] Not an image.
+2018/07/22 10:23:55 snoowall.go:138: [ERROR] Not an image.
+2018/07/22 10:23:55 snoowall.go:138: [ERROR] Not an image.
+2018/07/22 10:23:56 snoowall.go:138: [ERROR] Not an image.
+2018/07/22 10:23:56 snoowall.go:138: [ERROR] Not an image.
+2018/07/22 10:23:56 snoowall.go:138: [ERROR] Not an image.
+2018/07/22 10:23:57 snoowall.go:138: [ERROR] Not an image.
+2018/07/22 10:23:57 snoowall.go:138: [ERROR] Not an image.
+2018/07/22 10:23:57 snoowall.go:138: [ERROR] Not an image.
+2018/07/22 10:23:58 snoowall.go:138: [ERROR] Not an image.
+2018/07/22 10:23:58 snoowall.go:138: [ERROR] Not an image.
+2018/07/22 10:23:59 snoowall.go:138: [ERROR] Not an image.
+2018/07/22 10:24:38 snoowall.go:138: [ERROR] Not an image.
+2018/07/22 10:24:38 snoowall.go:138: [ERROR] Not an image.
+2018/07/22 10:24:39 snoowall.go:138: [ERROR] Not an image.
+2018/07/22 10:24:39 snoowall.go:138: [ERROR] Not an image.
+2018/07/22 10:24:39 snoowall.go:138: [ERROR] Not an image.
+2018/07/22 10:24:39 snoowall.go:138: [ERROR] Not an image.
+2018/07/22 10:24:45 snoowall.go:108: [ERROR]: No posts! Subreddit might not exist.2018/07/22 10:25:24 snoowall.go:57: [INFO] Updated wallpaper: /home/pro//Pictures/Wallpapers/nofap_90hllf.jpg
+2018/07/22 10:25:46 snoowall.go:57: [INFO] Updated wallpaper: /home/pro//Pictures/Wallpapers/earthporn_90uqmd.jpg
+2018/07/22 10:26:16 snoowall.go:57: [INFO] Updated wallpaper: /home/pro//Pictures/Wallpapers/earthporn_90jovr.jpg
+2018/07/22 10:26:26 snoowall.go:57: [INFO] Updated wallpaper: /home/pro//Pictures/Wallpapers/earthporn_90uqmd.jpg

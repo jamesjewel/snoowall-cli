@@ -8,12 +8,11 @@ package main
 						  Change file name to Name (Done)
 						  Bring binary data files
 	5. Command Line Options (Done)
-	6. Logging
+	6. Logging (Done) -> Improvements
 	7. Configuration File
 	8. PNG Problem (Done)
 	9. NSFW (Done)
 	10. Develop Syncing
-	.			fmt.Printf("%s: File not found.  Creating new file.\n", fname)
 
 	NaN. Graphical User Interface
 */
@@ -50,9 +49,11 @@ func setWall(file string) error {
 		fmt.Println("[DEBUG] Can't find previous wallpaper:", err)
 	}
 	fmt.Println("Current wallpaper:", background)
+
 	err = wallpaper.SetFromFile(file)
 	if err == nil {
 		fmt.Println("Updated Wallpaper:", file)
+		log.Println("[INFO] Updated wallpaper:", background)
 	}
 	return err
 }
@@ -80,17 +81,18 @@ func main() {
 	}
 	defer f.Close()
 	log.SetOutput(f)
+	log.SetFlags(log.Ldate | log.Ltime | log.Lshortfile)
 
 	rate := 5 * time.Second
 	script, err := reddit.NewScript("graw:snoowall:0.3.1 by /u/psychemerchant", rate)
 	if err != nil {
-		log.Fatalln("[DEBUG] Failed to create script handle: ", err)
+		log.Fatalln("[FATAL] Failed to create script handle: ", err)
 		return
 	}
 
 	harvest, err := script.Listing(fmt.Sprintf("/r/%s", subreddit), "")
 	if err != nil {
-		log.Fatalf("[DEBUG] Failed to fetch /r/%s: %s", subreddit, err)
+		log.Fatalf("[FATAL] Failed to fetch /r/%s: %s", subreddit, err)
 		return
 	}
 
@@ -102,14 +104,14 @@ retry:
 	} else if top == false {
 		length := len(harvest.Posts)
 		if length == 0 {
-			log.Println("[DEBUG]: No posts! Subreddit might not exist.")
+			log.Println("[ERROR]: No posts! Subreddit might not exist.")
 			return
 		}
 		post = harvest.Posts[rand.Intn(length)]
 	}
 	if nsfw == false {
 		if post.NSFW == true {
-			log.Println("[DEBUG] Post is NSFW")
+			log.Println("[ERROR] Post is NSFW")
 			if top == false {
 				goto retry
 			}
@@ -132,12 +134,12 @@ retry:
 	resp, err := http.Get(post.URL)
 	filetype := post.URL[len(post.URL)-4:]
 	if filetype != ".jpg" && filetype != ".png" {
-		log.Println("[DEBUG] Not an image.")
+		log.Println("[ERROR] Not an image.")
 		goto retry
 	}
 	fmt.Println("[DEBUG] Image Type:", filetype)
 	if err != nil {
-		log.Println("[DEBUG]: Couldn't fetch resource:", post.URL, err)
+		log.Println("[ERROR]: Couldn't fetch resource:", post.URL, err)
 		return
 	}
 	body, _ := ioutil.ReadAll(resp.Body)
@@ -145,11 +147,11 @@ retry:
 	filename := fmt.Sprintf("%s%s_%s%s", loc, subreddit, post.ID, filetype)
 	err = saveWall(filename, body)
 	if err != nil {
-		log.Println("[DEBUG] Wallpaper saving error:", err)
+		log.Println("[ERROR] Wallpaper saving error:", err)
 	}
 	err = setWall(filename)
 	if err != nil {
-		log.Println("[DEBUG] Wallpaper setting error:", err)
+		log.Println("[ERROR] Wallpaper setting error:", err)
 		return
 	}
 }
