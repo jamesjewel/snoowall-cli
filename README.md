@@ -5,7 +5,7 @@
 ## Usage
 
 ```bash\
-snoowall [OPTIONS]
+snoowall [-sub subreddit] [-top] [-allow-nsfw] [-sync]
 ```
 
 Options : 
