@@ -8,7 +8,7 @@
 snoowall [OPTIONS]
 ```
 
-Arguments
+Options : 
 
 `-sub` : Name of the subreddit to fetch images from. If omitted, defaults to 'wallpaper'.
 
@@ -33,4 +33,17 @@ snoowall -sub gmbwallpapers -sync
 ```
 Syncs new posts from 'gmbwallpapers' and sets a random image as the desktop background.  
 
-YAAAY! 
+## Installation
+Download the compiled executable from here: [snoowall_v.0.3.1](https://www.dropbox.com/s/s1897ki9hrc09c0/snoowall?dl=0)
+
+**OR**
+
+Compile from source:
+```bash
+go get "github.com/reujab/wallpaper"
+go get "github.com/turnage/graw/reddit"
+go build snoowall.go
+```
+For convinience you can add it to the system `PATH` or make a symlink to the `snoowall` executable in `/usr/bin`
+
+YAAAY! I hope Snoo doesn't mind.
