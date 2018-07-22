@@ -65,15 +65,23 @@ func setWall(file string) error {
 }
 
 type saveData struct {
-	Time       time.Time
-	Subreddit  string
-	Permalinks []string
+	Time      time.Time
+	Subreddit string
+	Info      []postMeta
+}
+type postMeta struct {
+	Title     string
+	ID        string
+	Permalink string
+	NSFW      bool
+	URL       string
 }
 
 /*
 	The main code
 */
 func main() {
+	rand.Seed(time.Now().UTC().UnixNano())
 	// collect flags
 	flag.StringVar(&subreddit, "sub", "wallpaper", "Specify the subreddit to fetch wallpapers from.")
 	flag.BoolVar(&top, "top", false, "Select the top wallpaper instead of a random one.")
@@ -119,7 +127,8 @@ func main() {
 		var subdata saveData
 		subdata.Time = time.Now()
 		subdata.Subreddit = subreddit
-		var postPermalinks []string
+		subdata.Info = make([]postMeta, 0)
+
 		length := len(harvest.Posts)
 		if length == 0 {
 			log.Println("[ERROR]: No posts! Subreddit might not exist.")
@@ -127,9 +136,8 @@ func main() {
 		}
 		for i := 0; i < length; i++ {
 			post := harvest.Posts[i]
-			postPermalinks = append(postPermalinks, post.Permalink)
+			subdata.Info = append(subdata.Info, postMeta{post.Title, post.ID, post.Permalink, post.NSFW, post.URL})
 		}
-		subdata.Permalinks = postPermalinks
 
 		var buff bytes.Buffer
 		enc := gob.NewEncoder(&buff)
@@ -147,20 +155,21 @@ func main() {
 	}
 	dec := gob.NewDecoder(bytes.NewReader(data))
 	var cursubdata saveData
-	dec.Decode(&cursubdata)
-	var postPermalink string
+	cursubdata.Info = make([]postMeta, 0)
+	err = dec.Decode(&cursubdata)
+	var post postMeta
 retry:
 	if top == true {
-		postPermalink = cursubdata.Permalinks[index]
+		post = cursubdata.Info[index]
 	} else if top == false {
-		postPermalink = cursubdata.Permalinks[rand.Intn(len(cursubdata.Permalinks))]
+		post = cursubdata.Info[rand.Intn(len(cursubdata.Info))]
 	}
 	// thread fetching
-	var post *reddit.Post
-	post, err = script.Thread(postPermalink)
-	if err != nil {
-		log.Fatalf("[FATAL] Failed to fetch post: %s err:%s", postPermalink, err)
-	}
+	// var post *reddit.Post
+	// post, err = script.Thread(postPermalink)
+	// if err != nil {
+	// 	log.Fatalf("[FATAL] Failed to fetch post: %s err:%s", postPermalink, err)
+	// }
 
 	// if allow-nsfw - false, nsfw check, retry
 	if nsfw == false {
@@ -178,7 +187,6 @@ retry:
 		log.Println("[ERROR] Not an image.")
 		goto retry
 	}
-	fmt.Println("[DEBUG] Image Type:", filetype)
 	if err != nil {
 		log.Println("[ERROR]: Couldn't fetch resource:", post.URL, err)
 		return
