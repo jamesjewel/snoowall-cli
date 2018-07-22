@@ -37,3 +37,34 @@
 2018/07/22 10:25:46 snoowall.go:57: [INFO] Updated wallpaper: /home/pro//Pictures/Wallpapers/earthporn_90uqmd.jpg
 2018/07/22 10:26:16 snoowall.go:57: [INFO] Updated wallpaper: /home/pro//Pictures/Wallpapers/earthporn_90jovr.jpg
 2018/07/22 10:26:26 snoowall.go:57: [INFO] Updated wallpaper: /home/pro//Pictures/Wallpapers/earthporn_90uqmd.jpg
+2018/07/22 10:54:53 snoowall.go:111: open %s/%scacheearthporn: no such file or directory
+2018/07/22 10:54:57 snoowall.go:56: [INFO] Updated wallpaper: /home/pro//Pictures/Wallpapers/earthporn_90uv4o.jpg
+2018/07/22 10:55:46 snoowall.go:111: open %s//%scacheearthporn: no such file or directory
+2018/07/22 10:55:49 snoowall.go:56: [INFO] Updated wallpaper: /home/pro//Pictures/Wallpapers/earthporn_90p7gz.jpg
+2018/07/22 10:57:35 snoowall.go:111: <nil>
+2018/07/22 10:57:36 snoowall.go:56: [INFO] Updated wallpaper: /home/pro//Pictures/Wallpapers/earthporn_90tpkw.jpg
+2018/07/22 10:58:34 snoowall.go:111: <nil>
+2018/07/22 10:58:35 snoowall.go:142: [ERROR] Not an image.
+2018/07/22 10:58:35 snoowall.go:142: [ERROR] Not an image.
+2018/07/22 10:58:41 snoowall.go:56: [INFO] Updated wallpaper: /home/pro//Pictures/Wallpapers/earthporn_90tl6o.jpg
+2018/07/22 11:05:18 snoowall.go:58: [INFO] Updated wallpaper: /home/pro//Pictures/Wallpapers/nofap_90s1wt.png
+2018/07/22 11:33:06 snoowall.go:127: [ERROR]: Cache file read error.
+2018/07/22 11:37:21 snoowall.go:127: [ERROR]: Cache file read error.
+2018/07/22 11:37:34 snoowall.go:127: [ERROR]: Cache file read error.
+2018/07/22 11:37:52 snoowall.go:127: [ERROR]: Cache file read error.
+2018/07/22 11:43:57 snoowall.go:125: [ERROR]: Cache file read error.
+2018/07/22 11:44:11 snoowall.go:125: [ERROR]: Cache file read error.
+2018/07/22 12:36:21 snoowall.go:128: <nil>
+2018/07/22 12:36:58 snoowall.go:129: <nil>
+2018/07/22 12:38:12 snoowall.go:128: <nil>
+2018/07/22 12:38:27 snoowall.go:57: [INFO] Updated wallpaper: /home/pro//Pictures/Wallpapers/nofap_90tfyp.jpg
+2018/07/22 12:38:43 snoowall.go:128: <nil>
+2018/07/22 12:38:52 snoowall.go:57: [INFO] Updated wallpaper: /home/pro//Pictures/Wallpapers/gmbwallpapers_8z02e5.png
+2018/07/22 12:39:54 snoowall.go:57: [INFO] Updated wallpaper: /home/pro//Pictures/Wallpapers/earthporn_90p7gz.jpg
+2018/07/22 12:40:00 snoowall.go:57: [INFO] Updated wallpaper: /home/pro//Pictures/Wallpapers/earthporn_90qze1.jpg
+2018/07/22 12:40:10 snoowall.go:57: [INFO] Updated wallpaper: /home/pro//Pictures/Wallpapers/earthporn_90p7gz.jpg
+2018/07/22 12:40:19 snoowall.go:57: [INFO] Updated wallpaper: /home/pro//Pictures/Wallpapers/earthporn_90numh.jpg
+2018/07/22 12:40:25 snoowall.go:125: [ERROR]: Cache file read error.
+2018/07/22 12:40:46 snoowall.go:57: [INFO] Updated wallpaper: /home/pro//Pictures/Wallpapers/earthporn_90v7xs.jpg
+2018/07/22 12:40:57 snoowall.go:57: [INFO] Updated wallpaper: /home/pro//Pictures/Wallpapers/wallpaper_8z2neb.jpg
+2018/07/22 12:41:16 snoowall.go:57: [INFO] Updated wallpaper: /home/pro//Pictures/Wallpapers/wallpaper_90h8e1.jpg

@@ -18,6 +18,8 @@ package main
 */
 
 import (
+	"bytes"
+	"encoding/gob"
 	"flag"
 	"fmt"
 	"io/ioutil"
@@ -34,8 +36,7 @@ import (
 var loc string
 var index int
 var subreddit string
-var top, nsfw bool
-
+var top, nsfw, sync bool
 var logfile = "LOG.log"
 
 func saveWall(filename string, b []byte) error {
@@ -58,23 +59,22 @@ func setWall(file string) error {
 	return err
 }
 
-func sync() {
-
-}
-
 /*
 	The main code
 */
 func main() {
 	rand.Seed(time.Now().UTC().UnixNano())
 
+	// collect flags
 	flag.StringVar(&subreddit, "sub", "wallpaper", "Specify the subreddit to fetch wallpapers from.")
 	flag.BoolVar(&top, "top", false, "Select the top wallpaper instead of a random one.")
+	flag.BoolVar(&nsfw, "allow-nsfw", false, "Gives a pass to NSFW content that is blocked by default.")
+	flag.BoolVar(&sync, "sync", false, "Syncs the local database with reddit.")
 	flag.IntVar(&index, "index", 1, "Post index (0-99)")
-	flag.BoolVar(&nsfw, "allow-nsfw", false, "Gives a pass to NSFW content that is blocked by default")
 	flag.Parse()
-	fmt.Printf("[DEBUG] Arguments: sub:%s;  top:%t;  index:%d;  allow-nsfw:%t;  tail:%v\n", subreddit, top, index, nsfw, flag.Args())
+	fmt.Printf("[DEBUG] Arguments: sub:%s;  top:%t;  index:%d;  sync:%t;  allow-nsfw:%t;  tail:%v\n", subreddit, top, index, sync, nsfw, flag.Args())
 
+	// setup logging
 	f, err := os.OpenFile(logfile, os.O_RDWR|os.O_CREATE|os.O_APPEND, 0666)
 	if err != nil {
 		log.Fatalf("error opening file: %v", err)
@@ -83,6 +83,7 @@ func main() {
 	log.SetOutput(f)
 	log.SetFlags(log.Ldate | log.Ltime | log.Lshortfile)
 
+	// initialize script to API
 	rate := 5 * time.Second
 	script, err := reddit.NewScript("graw:snoowall:0.3.1 by /u/psychemerchant", rate)
 	if err != nil {
@@ -90,47 +91,57 @@ func main() {
 		return
 	}
 
-	harvest, err := script.Listing(fmt.Sprintf("/r/%s", subreddit), "")
-	if err != nil {
-		log.Fatalf("[FATAL] Failed to fetch /r/%s: %s", subreddit, err)
-		return
-	}
-
-	var post *reddit.Post
-
-retry:
-	if top == true {
-		post = harvest.Posts[index]
-	} else if top == false {
+	// generating cache
+	if sync == true {
+		if _, err := os.Stat("cache"); os.IsNotExist(err) {
+			os.Mkdir("cache", os.ModePerm)
+		}
+		harvest, err := script.Listing(fmt.Sprintf("/r/%s", subreddit), "")
+		if err != nil {
+			log.Fatalf("[FATAL] Failed to fetch /r/%s: %s", subreddit, err)
+			return
+		}
+		postPermalinks := make([]string, 0, 100)
 		length := len(harvest.Posts)
 		if length == 0 {
 			log.Println("[ERROR]: No posts! Subreddit might not exist.")
 			return
 		}
-		post = harvest.Posts[rand.Intn(length)]
-	}
-	if nsfw == false {
-		if post.NSFW == true {
-			log.Println("[ERROR] Post is NSFW")
-			if top == false {
-				goto retry
-			}
+		for i := 0; i < length; i++ {
+			post := harvest.Posts[i]
+			postPermalinks = append(postPermalinks, post.Permalink)
 		}
+		var buff bytes.Buffer
+		enc := gob.NewEncoder(&buff)
+		err = enc.Encode(postPermalinks)
+		if err != nil {
+			log.Println("[ERROR]: Encoding error")
+		}
+		ioutil.WriteFile(fmt.Sprintf("%s/%s", "cache", subreddit), buff.Bytes(), 0600)
 	}
 
-	// postPermalinks := make([]string, 0, 100)
-	// for i := 0; i < 100; i++ {
-	// 	post := harvest.Posts[i]
-	// 	postPermalinks = append(postPermalinks, post.Permalink)
-	// }
-	// ioutil.WriteFile("postPermalinks", []byte(fmt.Sprintf("%#v", postPermalinks)), 0600)
+	data, err := ioutil.ReadFile(fmt.Sprintf("%s/%s", "cache", subreddit))
+	if err != nil {
+		log.Fatalln("[ERROR]: Cache file read error.")
+	}
+	dec := gob.NewDecoder(bytes.NewReader(data))
+	postPermalinks := make([]string, 0, 100)
+	dec.Decode(&postPermalinks)
+	var postPermalink string
+retry:
+	if top == true {
+		postPermalink = postPermalinks[index]
+	} else if top == false {
+		postPermalink = postPermalinks[rand.Intn(len(postPermalinks))]
+	}
+	// thread fetching
+	var post *reddit.Post
+	post, err = script.Thread(postPermalink)
+	if err != nil {
+		log.Fatalf("[FATAL] Failed to fetch post: %s err:%s", postPermalink, err)
+	}
 
-	// ioutil.WriteFile(datafile, []byte(post.Name), 0600)
-	// fmt.Println("After:", post.Name)
-
-	fmt.Println("[DEBUG] Post array length: ", len(harvest.Posts))
 	fmt.Printf("[Title]: %s\n[URL]: %s\n", post.Title, post.URL)
-
 	resp, err := http.Get(post.URL)
 	filetype := post.URL[len(post.URL)-4:]
 	if filetype != ".jpg" && filetype != ".png" {
