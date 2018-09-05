@@ -367,3 +367,76 @@
 2018/09/05 15:05:20 snoowall-cli.go:61: [INFO] Updated wallpaper: /home/monk/Pictures/Wallpapers/earthporn_9d1cot.jpg
 2018/09/05 15:05:26 snoowall-cli.go:101: [DEBUG] Arguments: sub:earthporn;  top:false;  index:1;  sync:false;  allow-nsfw:false;  tail:[]
 2018/09/05 15:05:43 snoowall-cli.go:61: [INFO] Updated wallpaper: /home/monk/Pictures/Wallpapers/earthporn_9d0up9.jpg
+2018/09/05 15:49:36 snoowall-cli.go:103: [DEBUG] Arguments: sub:gonewild;  top:false;  index:1;  sync:false;  allow-nsfw:false;  tail:[]
+2018/09/05 15:49:48 snoowall-cli.go:156: [INFO] Synced /r/gonewild to cache/gonewild
+2018/09/05 15:49:51 snoowall-cli.go:63: [INFO] Updated wallpaper: /home/monk/Pictures/Wallpapers/gonewild_9d2jbw.jpg
+2018/09/05 15:50:09 snoowall-cli.go:103: [DEBUG] Arguments: sub:earthporn;  top:false;  index:1;  sync:false;  allow-nsfw:false;  tail:[]
+2018/09/05 15:50:26 snoowall-cli.go:63: [INFO] Updated wallpaper: /home/monk/Pictures/Wallpapers/earthporn_9cznwn.jpg
+2018/09/05 15:52:12 snoowall-cli.go:103: [DEBUG] Arguments: sub:gonewild;  top:false;  index:1;  sync:false;  allow-nsfw:false;  tail:[]
+2018/09/05 15:52:17 snoowall-cli.go:103: [DEBUG] Arguments: sub:gonewild;  top:false;  index:1;  sync:false;  allow-nsfw:false;  tail:[]
+2018/09/05 15:52:24 snoowall-cli.go:103: [DEBUG] Arguments: sub:gonewild;  top:true;  index:1;  sync:false;  allow-nsfw:false;  tail:[]
+2018/09/05 15:52:25 snoowall-cli.go:201: [ERROR] Not an image.
+2018/09/05 15:52:25 snoowall-cli.go:201: [ERROR] Not an image.
+2018/09/05 15:52:25 snoowall-cli.go:201: [ERROR] Not an image.
+2018/09/05 15:52:26 snoowall-cli.go:201: [ERROR] Not an image.
+2018/09/05 15:52:26 snoowall-cli.go:201: [ERROR] Not an image.
+2018/09/05 15:52:26 snoowall-cli.go:201: [ERROR] Not an image.
+2018/09/05 15:52:27 snoowall-cli.go:201: [ERROR] Not an image.
+2018/09/05 15:52:27 snoowall-cli.go:201: [ERROR] Not an image.
+2018/09/05 15:52:27 snoowall-cli.go:201: [ERROR] Not an image.
+2018/09/05 15:52:27 snoowall-cli.go:201: [ERROR] Not an image.
+2018/09/05 15:52:28 snoowall-cli.go:201: [ERROR] Not an image.
+2018/09/05 15:52:28 snoowall-cli.go:201: [ERROR] Not an image.
+2018/09/05 15:52:28 snoowall-cli.go:201: [ERROR] Not an image.
+2018/09/05 15:52:29 snoowall-cli.go:201: [ERROR] Not an image.
+2018/09/05 15:52:29 snoowall-cli.go:201: [ERROR] Not an image.
+2018/09/05 15:52:30 snoowall-cli.go:201: [ERROR] Not an image.
+2018/09/05 15:52:30 snoowall-cli.go:201: [ERROR] Not an image.
+2018/09/05 15:52:31 snoowall-cli.go:201: [ERROR] Not an image.
+2018/09/05 15:52:31 snoowall-cli.go:201: [ERROR] Not an image.
+2018/09/05 15:52:32 snoowall-cli.go:201: [ERROR] Not an image.
+2018/09/05 15:52:32 snoowall-cli.go:201: [ERROR] Not an image.
+2018/09/05 15:52:33 snoowall-cli.go:201: [ERROR] Not an image.
+2018/09/05 15:52:33 snoowall-cli.go:201: [ERROR] Not an image.
+2018/09/05 15:52:34 snoowall-cli.go:201: [ERROR] Not an image.
+2018/09/05 15:52:34 snoowall-cli.go:201: [ERROR] Not an image.
+2018/09/05 15:53:33 snoowall-cli.go:103: [DEBUG] Arguments: sub:gonewild;  top:false;  index:1;  sync:false;  allow-nsfw:false;  tail:[]
+2018/09/05 15:53:38 snoowall-cli.go:103: [DEBUG] Arguments: sub:gonewild;  top:true;  index:1;  sync:false;  allow-nsfw:false;  tail:[]
+2018/09/05 15:53:38 snoowall-cli.go:201: [ERROR] Not an image.
+2018/09/05 15:53:39 snoowall-cli.go:201: [ERROR] Not an image.
+2018/09/05 15:56:24 snoowall-cli.go:103: [DEBUG] Arguments: sub:gonewild;  top:true;  index:1;  sync:false;  allow-nsfw:false;  tail:[]
+2018/09/05 15:57:00 snoowall-cli.go:103: [DEBUG] Arguments: sub:gonewild;  top:true;  index:1;  sync:false;  allow-nsfw:false;  tail:[]
+2018/09/05 15:57:05 snoowall-cli.go:103: [DEBUG] Arguments: sub:gonewild;  top:false;  index:1;  sync:false;  allow-nsfw:false;  tail:[]
+2018/09/05 15:57:19 snoowall-cli.go:103: [DEBUG] Arguments: sub:nsfw_wallpapers;  top:false;  index:1;  sync:false;  allow-nsfw:false;  tail:[]
+2018/09/05 15:57:24 snoowall-cli.go:156: [INFO] Synced /r/nsfw_wallpapers to cache/nsfw_wallpapers
+2018/09/05 15:57:29 snoowall-cli.go:103: [DEBUG] Arguments: sub:nsfw_wallpapers;  top:true;  index:1;  sync:false;  allow-nsfw:false;  tail:[]
+2018/09/05 15:57:36 snoowall-cli.go:103: [DEBUG] Arguments: sub:sexygirls;  top:false;  index:1;  sync:false;  allow-nsfw:false;  tail:[]
+2018/09/05 15:57:42 snoowall-cli.go:156: [INFO] Synced /r/sexygirls to cache/sexygirls
+2018/09/05 15:57:45 snoowall-cli.go:103: [DEBUG] Arguments: sub:sexygirls;  top:false;  index:1;  sync:false;  allow-nsfw:false;  tail:[]
+2018/09/05 15:57:46 snoowall-cli.go:103: [DEBUG] Arguments: sub:sexygirls;  top:false;  index:1;  sync:false;  allow-nsfw:false;  tail:[]
+2018/09/05 15:57:47 snoowall-cli.go:103: [DEBUG] Arguments: sub:sexygirls;  top:false;  index:1;  sync:false;  allow-nsfw:false;  tail:[]
+2018/09/05 15:57:48 snoowall-cli.go:103: [DEBUG] Arguments: sub:sexygirls;  top:false;  index:1;  sync:false;  allow-nsfw:false;  tail:[]
+2018/09/05 15:57:51 snoowall-cli.go:103: [DEBUG] Arguments: sub:sexy;  top:false;  index:1;  sync:false;  allow-nsfw:false;  tail:[]
+2018/09/05 15:57:56 snoowall-cli.go:156: [INFO] Synced /r/sexy to cache/sexy
+2018/09/05 15:57:59 snoowall-cli.go:103: [DEBUG] Arguments: sub:sexy;  top:false;  index:1;  sync:false;  allow-nsfw:false;  tail:[]
+2018/09/05 15:58:00 snoowall-cli.go:103: [DEBUG] Arguments: sub:sexy;  top:false;  index:1;  sync:false;  allow-nsfw:false;  tail:[]
+2018/09/05 15:58:01 snoowall-cli.go:103: [DEBUG] Arguments: sub:sexy;  top:false;  index:1;  sync:false;  allow-nsfw:false;  tail:[]
+2018/09/05 15:58:07 snoowall-cli.go:103: [DEBUG] Arguments: sub:sexy;  top:true;  index:1;  sync:false;  allow-nsfw:false;  tail:[]
+2018/09/05 16:22:11 snoowall-cli.go:103: [DEBUG] Arguments: sub:shitporn;  top:false;  index:1;  sync:false;  allow-nsfw:false;  tail:[]
+2018/09/05 16:22:21 snoowall-cli.go:140: [ERROR]: No posts! Subreddit might not exist.
+2018/09/05 16:26:59 snoowall-cli.go:103: [DEBUG] Arguments: sub:shitporn;  top:false;  index:1;  sync:false;  allow-nsfw:false;  tail:[]
+2018/09/05 16:27:00 snoowall-cli.go:137: [ERROR]: No posts! Subreddit might not exist.
+2018/09/05 16:27:08 snoowall-cli.go:103: [DEBUG] Arguments: sub:shit;  top:false;  index:1;  sync:false;  allow-nsfw:false;  tail:[]
+2018/09/05 16:27:25 snoowall-cli.go:151: [INFO] Synced /r/shit to cache/shit
+2018/09/05 16:27:29 snoowall-cli.go:63: [INFO] Updated wallpaper: /home/monk/Pictures/Wallpapers/shit_6gcnsh.jpg
+2018/09/05 16:27:42 snoowall-cli.go:103: [DEBUG] Arguments: sub:earthporn;  top:false;  index:1;  sync:false;  allow-nsfw:false;  tail:[]
+2018/09/05 16:27:51 snoowall-cli.go:63: [INFO] Updated wallpaper: /home/monk/Pictures/Wallpapers/earthporn_9czab1.jpg
+2018/09/05 17:00:15 snoowall-cli.go:103: [DEBUG] Arguments: sub:earthporn;  top:false;  index:1;  sync:false;  allow-nsfw:false;  tail:[]
+2018/09/05 17:00:20 snoowall-cli.go:152: [INFO] Synced /r/earthporn to /home/monk/.cache/snoowall-cli/earthporn
+2018/09/05 17:00:27 snoowall-cli.go:62: [INFO] Updated wallpaper: /home/monk/.cache/snoowall-cli/earthporn_9d2t6p.jpg
+2018/09/05 17:00:43 snoowall-cli.go:103: [DEBUG] Arguments: sub:earthporn;  top:false;  index:1;  sync:false;  allow-nsfw:false;  tail:[]
+2018/09/05 17:00:51 snoowall-cli.go:62: [INFO] Updated wallpaper: /home/monk/Pictures/Wallpapers/earthporn_9cz09s.jpg
+2018/09/05 18:01:22 snoowall-cli.go:103: [DEBUG] Arguments: sub:earthporn;  top:false;  index:1;  sync:false;  allow-nsfw:false;  tail:[]
+2018/09/05 18:01:25 snoowall-cli.go:62: [INFO] Updated wallpaper: /home/monk/Pictures/Wallpapers/earthporn_9d05cc.jpg
+2018/09/05 18:01:36 snoowall-cli.go:103: [DEBUG] Arguments: sub:earthporn;  top:false;  index:1;  sync:false;  allow-nsfw:false;  tail:[]
+2018/09/05 18:01:37 snoowall-cli.go:62: [INFO] Updated wallpaper: /home/monk/.cache/snoowall-cli/earthporn_9d3l5c.jpg

@@ -38,10 +38,9 @@ import (
 	"github.com/turnage/graw/reddit"
 )
 
-var loc string
 var index int
 var subreddit string
-var top, nsfw, sync bool
+var top, nsfw, sync, save bool
 var logfile = "LOG.log"
 
 var rcount = 0
@@ -88,6 +87,7 @@ func main() {
 	flag.BoolVar(&top, "top", false, "Select the top wallpaper instead of a random one.")
 	flag.BoolVar(&nsfw, "allow-nsfw", false, "Gives a pass to NSFW content that is blocked by default.")
 	flag.BoolVar(&sync, "sync", false, "Syncs the local database with reddit.")
+	flag.BoolVar(&save, "save", false, "Saves the wallpaper locally")
 	flag.IntVar(&index, "index", 1, "Post index (0-99)")
 	flag.Parse()
 
@@ -111,15 +111,16 @@ func main() {
 	}
 
 	// if cache does not exist, sync
-	cacheloc := fmt.Sprintf("%s/%s", "cache", subreddit)
+	syncLoc := fmt.Sprintf("%s/%s", os.Getenv("HOME"), ".cache/snoowall-cli")
+	cacheloc := fmt.Sprintf("%s/%s", syncLoc, subreddit)
 	if _, err := os.Stat(cacheloc); os.IsNotExist(err) {
 		sync = true
 	}
 
 	// generating cache
 	if sync == true {
-		if _, err := os.Stat("cache"); os.IsNotExist(err) {
-			os.Mkdir("cache", os.ModePerm)
+		if _, err := os.Stat(syncLoc); os.IsNotExist(err) {
+			os.MkdirAll(syncLoc, os.ModePerm)
 		}
 		fmt.Printf("[INFO] Syncing... /r/%s to %s\n", subreddit, cacheloc)
 
@@ -206,17 +207,24 @@ retry:
 		return
 	}
 	body, _ := ioutil.ReadAll(resp.Body)
-	loc := fmt.Sprintf("%s/%s", os.Getenv("HOME"), "Pictures/Wallpapers/")
-	filename := fmt.Sprintf("%s%s_%s%s", loc, subreddit, post.ID, filetype)
-	if _, err := os.Stat(loc); os.IsNotExist(err) {
-		log.Println("[INFO] Wallpaper save location does not exist. Creating...")
-		os.MkdirAll(loc, os.ModePerm)
-	}
 
+	// if save=true, save in user's home directory, else save in cache
+	var loc string
+	if save == true {
+		loc = fmt.Sprintf("%s/%s", os.Getenv("HOME"), "Pictures/Wallpapers/")
+		if _, err := os.Stat(loc); os.IsNotExist(err) {
+			log.Println("[INFO] Wallpaper save location does not exist. Creating...")
+			os.MkdirAll(loc, os.ModePerm)
+		}
+	} else {
+		loc = fmt.Sprintf("%s/%s", os.Getenv("HOME"), ".cache/snoowall-cli/")
+	}
+	filename := fmt.Sprintf("%s%s_%s%s", loc, subreddit, post.ID, filetype)
 	err = saveWall(filename, body)
 	if err != nil {
-		log.Println("[ERROR] Wallpaper saving error:", err)
+		log.Fatalln("[ERROR] Wallpaper saving error:", err)
 	}
+
 	err = setWall(filename)
 	if err != nil {
 		log.Println("[ERROR] Wallpaper setting error:", err)
