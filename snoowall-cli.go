@@ -95,7 +95,6 @@ func main() {
 		fmt.Println("[ERROR] Error opening logfile:", err)
 	}
 	defer f.Close()
-
 	log.SetOutput(f)
 	log.SetFlags(log.Ldate | log.Ltime | log.Lshortfile)
 
@@ -203,6 +202,11 @@ retry:
 	body, _ := ioutil.ReadAll(resp.Body)
 	loc := fmt.Sprintf("%s/%s", os.Getenv("HOME"), "Pictures/Wallpapers/")
 	filename := fmt.Sprintf("%s%s_%s%s", loc, subreddit, post.ID, filetype)
+	if _, err := os.Stat(loc); os.IsNotExist(err) {
+		log.Println("[INFO] Wallpaper save location does not exist. Creating...")
+		os.MkdirAll(loc, os.ModePerm)
+	}
+
 	err = saveWall(filename, body)
 	if err != nil {
 		log.Println("[ERROR] Wallpaper saving error:", err)

@@ -222,6 +222,7 @@
 2018/07/22 18:40:27 snoowall.go:62: [INFO] Updated wallpaper: /home/pro/Pictures/Wallpapers/earthporn_90tt9i.jpg
 2018/07/22 18:40:29 snoowall.go:102: [DEBUG] Arguments: sub:earthporn;  top:false;  index:1;  sync:false;  allow-nsfw:false;  tail:[]
 2018/07/22 18:40:34 snoowall.go:62: [INFO] Updated wallpaper: /home/pro/Pictures/Wallpapers/earthporn_90vx1h.jpg
+<<<<<<< HEAD
 2018/08/01 16:42:52 snoowall.go:101: [DEBUG] Arguments: sub:wallpap;  top:false;  index:1;  sync:false;  allow-nsfw:false;  tail:[]
 2018/08/01 16:42:53 snoowall.go:154: [INFO] Synced /r/wallpap to cache/wallpap
 2018/08/01 16:42:54 snoowall.go:192: [ERROR] Not an image.
@@ -252,3 +253,117 @@
 2018/09/05 14:23:30 snoowall-cli.go:101: [DEBUG] Arguments: sub:earthporn;  top:false;  index:1;  sync:false;  allow-nsfw:false;  tail:[]
 2018/09/05 14:23:31 snoowall-cli.go:207: [ERROR] Wallpaper saving error: open /home/monk/Pictures/Wallpapers/earthporn_9d27qt.jpg: no such file or directory
 2018/09/05 14:23:31 snoowall-cli.go:61: [INFO] Updated wallpaper: /home/monk/Pictures/Wallpapers/earthporn_9d27qt.jpg
+=======
+2018/07/23 05:19:51 snoowall.go:101: [DEBUG] Arguments: sub:earthporn;  top:false;  index:1;  sync:false;  allow-nsfw:false;  tail:[]
+2018/07/23 05:20:02 snoowall.go:194: [ERROR]: Couldn't fetch resource: https://i.redd.it/edhkugne4eb11.jpg Get https://i.redd.it/edhkugne4eb11.jpg: dial tcp: lookup i.redd.it: no such host
+2018/07/23 05:20:07 snoowall.go:101: [DEBUG] Arguments: sub:earthporn;  top:false;  index:1;  sync:false;  allow-nsfw:false;  tail:[]
+2018/07/23 05:20:12 snoowall.go:202: [ERROR] Wallpaper saving error: open C:\Users\Jewel James/Pictures/Wallpapers/earthporn_90t0yo.jpg: The system cannot find the path specified.
+2018/07/23 05:20:13 snoowall.go:62: [INFO] Updated wallpaper: C:\Users\Jewel James/Pictures/Wallpapers/earthporn_90t0yo.jpg
+2018/07/23 05:20:32 snoowall.go:101: [DEBUG] Arguments: sub:earthporn;  top:false;  index:1;  sync:false;  allow-nsfw:false;  tail:[]
+2018/07/23 05:20:38 snoowall.go:202: [ERROR] Wallpaper saving error: open C:\Users\Jewel James/Pictures/Wallpapers/earthporn_90vx1h.jpg: The system cannot find the path specified.
+2018/07/23 05:20:39 snoowall.go:62: [INFO] Updated wallpaper: C:\Users\Jewel James/Pictures/Wallpapers/earthporn_90vx1h.jpg
+2018/07/23 05:23:42 snoowall.go:101: [DEBUG] Arguments: sub:earthporn;  top:false;  index:1;  sync:false;  allow-nsfw:false;  tail:[]
+2018/07/23 05:23:50 snoowall.go:202: [ERROR] Wallpaper saving error: open C:\Users\Jewel James/Pictures/Wallpapers/earthporn_90tvz0.jpg: The system cannot find the path specified.
+2018/07/23 05:23:51 snoowall.go:62: [INFO] Updated wallpaper: C:\Users\Jewel James/Pictures/Wallpapers/earthporn_90tvz0.jpg
+2018/07/23 05:27:55 snoowall.go:101: [DEBUG] Arguments: sub:earthporn;  top:false;  index:1;  sync:false;  allow-nsfw:false;  tail:[]
+2018/07/23 05:27:59 snoowall.go:202: [ERROR] Wallpaper saving error: open C:\Users\Jewel James/Pictures/Wallpapers/earthporn_90v4x2.jpg: The system cannot find the path specified.
+2018/07/23 05:27:59 snoowall.go:62: [INFO] Updated wallpaper: C:\Users\Jewel James/Pictures/Wallpapers/earthporn_90v4x2.jpg
+2018/07/23 05:28:44 snoowall.go:101: [DEBUG] Arguments: sub:earthporn;  top:false;  index:1;  sync:false;  allow-nsfw:false;  tail:[]
+2018/07/23 05:28:51 snoowall.go:62: [INFO] Updated wallpaper: C:\Users\Jewel James/Pictures/Wallpapers/earthporn_90piie.jpg
+2018/07/23 05:29:00 snoowall.go:101: [DEBUG] Arguments: sub:earthporn;  top:false;  index:1;  sync:false;  allow-nsfw:false;  tail:[]
+2018/07/23 05:29:08 snoowall.go:62: [INFO] Updated wallpaper: C:\Users\Jewel James/Pictures/Wallpapers/earthporn_90xbuc.jpg
+2018/07/23 05:30:37 snoowall.go:102: [DEBUG] Arguments: sub:earthporn;  top:false;  index:1;  sync:false;  allow-nsfw:false;  tail:[]
+2018/07/23 05:30:39 snoowall.go:63: [INFO] Updated wallpaper: C:\Users\Jewel James/Pictures\Wallpapers\earthporn_90p3aa.jpg
+2018/07/23 05:30:40 snoowall.go:102: [DEBUG] Arguments: sub:earthporn;  top:false;  index:1;  sync:false;  allow-nsfw:false;  tail:[]
+2018/07/23 05:30:46 snoowall.go:63: [INFO] Updated wallpaper: C:\Users\Jewel James/Pictures\Wallpapers\earthporn_90trh7.jpg
+2018/07/23 05:30:52 snoowall.go:102: [DEBUG] Arguments: sub:gmbwallpapers;  top:false;  index:1;  sync:false;  allow-nsfw:false;  tail:[]
+2018/07/23 05:30:55 snoowall.go:63: [INFO] Updated wallpaper: C:\Users\Jewel James/Pictures\Wallpapers\gmbwallpapers_8t876u.jpg
+2018/07/23 05:30:57 snoowall.go:102: [DEBUG] Arguments: sub:gmbwallpapers;  top:false;  index:1;  sync:false;  allow-nsfw:false;  tail:[]
+2018/07/23 05:30:59 snoowall.go:63: [INFO] Updated wallpaper: C:\Users\Jewel James/Pictures\Wallpapers\gmbwallpapers_8v88gr.jpg
+2018/07/23 05:31:00 snoowall.go:102: [DEBUG] Arguments: sub:gmbwallpapers;  top:false;  index:1;  sync:false;  allow-nsfw:false;  tail:[]
+2018/07/23 05:31:04 snoowall.go:63: [INFO] Updated wallpaper: C:\Users\Jewel James/Pictures\Wallpapers\gmbwallpapers_8yhza8.jpg
+2018/07/23 05:31:05 snoowall.go:102: [DEBUG] Arguments: sub:gmbwallpapers;  top:false;  index:1;  sync:false;  allow-nsfw:false;  tail:[]
+2018/07/23 05:31:10 snoowall.go:63: [INFO] Updated wallpaper: C:\Users\Jewel James/Pictures\Wallpapers\gmbwallpapers_8r95xw.jpg
+2018/07/23 05:31:40 snoowall.go:102: [DEBUG] Arguments: sub:amateurearthporn;  top:false;  index:1;  sync:false;  allow-nsfw:false;  tail:[]
+2018/07/23 05:31:44 snoowall.go:152: [INFO] Synced /r/amateurearthporn to cache/amateurearthporn
+2018/07/23 05:31:48 snoowall.go:63: [INFO] Updated wallpaper: C:\Users\Jewel James/Pictures\Wallpapers\amateurearthporn_8l9tmz.jpg
+2018/07/23 05:31:59 snoowall.go:102: [DEBUG] Arguments: sub:amateurearthporn;  top:false;  index:1;  sync:false;  allow-nsfw:false;  tail:[]
+2018/07/23 05:32:11 snoowall.go:63: [INFO] Updated wallpaper: C:\Users\Jewel James/Pictures\Wallpapers\amateurearthporn_8gm10g.jpg
+2018/07/23 05:32:30 snoowall.go:102: [DEBUG] Arguments: sub:earthporn;  top:false;  index:1;  sync:false;  allow-nsfw:false;  tail:[]
+2018/07/23 05:32:36 snoowall.go:208: [ERROR] Wallpaper saving error: open /Pictures\Wallpapers\earthporn_90vw83.jpg: The system cannot find the path specified.
+2018/07/23 05:32:37 snoowall.go:63: [INFO] Updated wallpaper: /Pictures\Wallpapers\earthporn_90vw83.jpg
+2018/07/23 05:48:25 snoowall.go:102: [DEBUG] Arguments: sub:earthporn;  top:false;  index:1;  sync:false;  allow-nsfw:false;  tail:[]
+2018/07/23 05:48:27 snoowall.go:209: [ERROR] Wallpaper saving error: open /Pictures\Wallpapers\earthporn_90xex4.jpg: The system cannot find the path specified.
+2018/07/23 05:48:27 snoowall.go:63: [INFO] Updated wallpaper: /Pictures\Wallpapers\earthporn_90xex4.jpg
+2018/07/23 05:52:00 snoowall.go:102: [DEBUG] Arguments: sub:earthporn;  top:false;  index:1;  sync:false;  allow-nsfw:false;  tail:[]
+2018/07/23 05:52:05 snoowall.go:63: [INFO] Updated wallpaper: C:\Users\Jewel James\Pictures\Wallpapers\earthporn_90t07r.jpg
+2018/07/23 05:52:11 snoowall.go:102: [DEBUG] Arguments: sub:earthporn;  top:false;  index:1;  sync:false;  allow-nsfw:false;  tail:[]
+2018/07/23 05:52:18 snoowall.go:63: [INFO] Updated wallpaper: C:\Users\Jewel James\Pictures\Wallpapers\earthporn_90trh7.jpg
+2018/07/23 05:52:27 snoowall.go:102: [DEBUG] Arguments: sub:earthporn;  top:false;  index:1;  sync:false;  allow-nsfw:false;  tail:[]
+2018/07/23 05:52:36 snoowall.go:63: [INFO] Updated wallpaper: C:\Users\Jewel James\Pictures\Wallpapers\earthporn_90t0yo.jpg
+2018/07/23 05:52:49 snoowall.go:102: [DEBUG] Arguments: sub:gmbwallpapers;  top:false;  index:1;  sync:false;  allow-nsfw:false;  tail:[]
+2018/07/23 05:52:52 snoowall.go:63: [INFO] Updated wallpaper: C:\Users\Jewel James\Pictures\Wallpapers\gmbwallpapers_8o2zpv.jpg
+2018/07/23 05:54:00 snoowall.go:102: [DEBUG] Arguments: sub:gmbwallpapers;  top:false;  index:1;  sync:false;  allow-nsfw:false;  tail:[]
+2018/07/23 05:54:04 snoowall.go:63: [INFO] Updated wallpaper: C:\Users\Jewel James\Pictures\Wallpapers\gmbwallpapers_8wyzl3.jpg
+2018/07/23 05:54:05 snoowall.go:102: [DEBUG] Arguments: sub:gmbwallpapers;  top:false;  index:1;  sync:false;  allow-nsfw:false;  tail:[]
+2018/07/23 05:54:10 snoowall.go:63: [INFO] Updated wallpaper: C:\Users\Jewel James\Pictures\Wallpapers\gmbwallpapers_8x6ml7.jpg
+2018/07/23 05:54:11 snoowall.go:102: [DEBUG] Arguments: sub:gmbwallpapers;  top:false;  index:1;  sync:false;  allow-nsfw:false;  tail:[]
+2018/07/23 05:54:14 snoowall.go:63: [INFO] Updated wallpaper: C:\Users\Jewel James\Pictures\Wallpapers\gmbwallpapers_90dwwf.jpg
+2018/07/23 05:54:15 snoowall.go:102: [DEBUG] Arguments: sub:gmbwallpapers;  top:false;  index:1;  sync:false;  allow-nsfw:false;  tail:[]
+2018/07/23 05:54:18 snoowall.go:63: [INFO] Updated wallpaper: C:\Users\Jewel James\Pictures\Wallpapers\gmbwallpapers_8wyzl3.jpg
+2018/07/23 05:54:19 snoowall.go:102: [DEBUG] Arguments: sub:gmbwallpapers;  top:false;  index:1;  sync:false;  allow-nsfw:false;  tail:[]
+2018/07/23 05:54:22 snoowall.go:63: [INFO] Updated wallpaper: C:\Users\Jewel James\Pictures\Wallpapers\gmbwallpapers_90nc3s.jpg
+2018/07/23 05:54:23 snoowall.go:102: [DEBUG] Arguments: sub:gmbwallpapers;  top:false;  index:1;  sync:false;  allow-nsfw:false;  tail:[]
+2018/07/23 05:54:32 snoowall.go:63: [INFO] Updated wallpaper: C:\Users\Jewel James\Pictures\Wallpapers\gmbwallpapers_8tbbrj.jpg
+2018/07/23 05:54:56 snoowall.go:102: [DEBUG] Arguments: sub:gonewild;  top:false;  index:1;  sync:false;  allow-nsfw:false;  tail:[]
+2018/07/23 05:54:59 snoowall.go:152: [INFO] Synced /r/gonewild to cache/gonewild
+2018/07/23 05:55:17 snoowall.go:102: [DEBUG] Arguments: sub:gonewild;  top:false;  index:1;  sync:false;  allow-nsfw:true;  tail:[]
+2018/07/23 05:55:24 snoowall.go:63: [INFO] Updated wallpaper: C:\Users\Jewel James\Pictures\Wallpapers\gonewild_9136pb.jpg
+>>>>>>> 17551482ca73a890ad8639ca7f7fff96ceda5dd4
+2018/09/05 14:47:31 snoowall-cli.go:101: [DEBUG] Arguments: sub:earthporn;  top:false;  index:1;  sync:false;  allow-nsfw:false;  tail:[]
+2018/09/05 14:47:31 snoowall-cli.go:207: [ERROR] Wallpaper saving error: open /home/monk/Pictures/Wallpapers/earthporn_9d1i2c.jpg: no such file or directory
+2018/09/05 14:47:31 snoowall-cli.go:61: [INFO] Updated wallpaper: /home/monk/Pictures/Wallpapers/earthporn_9d1i2c.jpg
+2018/09/05 14:49:00 snoowall-cli.go:101: [DEBUG] Arguments: sub:earthporn;  top:false;  index:1;  sync:false;  allow-nsfw:false;  tail:[]
+2018/09/05 14:49:07 snoowall-cli.go:213: [ERROR] Wallpaper saving error: open /home/monk/Pictures/Wallpapers/earthporn_9d0sik.jpg: no such file or directory
+2018/09/05 14:49:07 snoowall-cli.go:61: [INFO] Updated wallpaper: /home/monk/Pictures/Wallpapers/earthporn_9d0sik.jpg
+2018/09/05 14:50:13 snoowall-cli.go:101: [DEBUG] Arguments: sub:earthporn;  top:false;  index:1;  sync:false;  allow-nsfw:false;  tail:[]
+2018/09/05 14:50:30 snoowall-cli.go:213: [ERROR] Wallpaper saving error: open /home/monk/Pictures/Wallpapers/earthporn_9d2yo4.jpg: no such file or directory
+2018/09/05 14:50:30 snoowall-cli.go:61: [INFO] Updated wallpaper: /home/monk/Pictures/Wallpapers/earthporn_9d2yo4.jpg
+2018/09/05 14:51:11 snoowall-cli.go:101: [DEBUG] Arguments: sub:earthporn;  top:false;  index:1;  sync:false;  allow-nsfw:false;  tail:[]
+2018/09/05 14:51:14 snoowall-cli.go:213: [ERROR] Wallpaper saving error: open /home/monk/Pictures/Wallpapers/earthporn_9d4jo2.jpg: no such file or directory
+2018/09/05 14:51:14 snoowall-cli.go:61: [INFO] Updated wallpaper: /home/monk/Pictures/Wallpapers/earthporn_9d4jo2.jpg
+2018/09/05 14:51:31 snoowall-cli.go:101: [DEBUG] Arguments: sub:earthporn;  top:false;  index:1;  sync:false;  allow-nsfw:false;  tail:[]
+2018/09/05 14:51:33 snoowall-cli.go:193: [ERROR] Not an image.
+2018/09/05 14:51:36 snoowall-cli.go:213: [ERROR] Wallpaper saving error: open /home/monk/Pictures/Wallpapers/earthporn_9cxdzk.jpg: no such file or directory
+2018/09/05 14:51:36 snoowall-cli.go:61: [INFO] Updated wallpaper: /home/monk/Pictures/Wallpapers/earthporn_9cxdzk.jpg
+2018/09/05 14:56:58 snoowall-cli.go:101: [DEBUG] Arguments: sub:earthporn;  top:false;  index:1;  sync:false;  allow-nsfw:false;  tail:[]
+2018/09/05 14:57:08 snoowall-cli.go:198: [ERROR]: Couldn't fetch resource: https://i.redd.it/easoi8ullak11.jpg Get https://i.redd.it/easoi8ullak11.jpg: dial tcp: lookup i.redd.it: Temporary failure in name resolution
+2018/09/05 14:57:11 snoowall-cli.go:101: [DEBUG] Arguments: sub:earthporn;  top:false;  index:1;  sync:false;  allow-nsfw:false;  tail:[]
+2018/09/05 14:57:24 snoowall-cli.go:213: [ERROR] Wallpaper saving error: open /home/monk/Pictures/Wallpapers/earthporn_9d33bk.jpg: no such file or directory
+2018/09/05 14:57:24 snoowall-cli.go:61: [INFO] Updated wallpaper: /home/monk/Pictures/Wallpapers/earthporn_9d33bk.jpg
+2018/09/05 14:59:21 snoowall-cli.go:101: [DEBUG] Arguments: sub:earthporn;  top:false;  index:1;  sync:false;  allow-nsfw:false;  tail:[]
+2018/09/05 14:59:30 snoowall-cli.go:212: [ERROR] Wallpaper saving error: open /home/monk/Pictures/Wallpapers/earthporn_9d33bk.jpg: no such file or directory
+2018/09/05 14:59:30 snoowall-cli.go:61: [INFO] Updated wallpaper: /home/monk/Pictures/Wallpapers/earthporn_9d33bk.jpg
+2018/09/05 15:00:33 snoowall-cli.go:101: [DEBUG] Arguments: sub:earthporn;  top:false;  index:1;  sync:false;  allow-nsfw:false;  tail:[]
+2018/09/05 15:00:36 snoowall-cli.go:61: [INFO] Updated wallpaper: /home/monk/Pictures/Wallpapers/earthporn_9d3u3t.jpg
+2018/09/05 15:01:45 snoowall-cli.go:101: [DEBUG] Arguments: sub:earthporn;  top:false;  index:1;  sync:false;  allow-nsfw:false;  tail:[]
+2018/09/05 15:01:45 snoowall-cli.go:61: [INFO] Updated wallpaper: /home/monk/Pictures/Wallpapers/earthporn_9d29hr.jpg
+2018/09/05 15:04:10 snoowall-cli.go:101: [DEBUG] Arguments: sub:earthporn;  top:false;  index:1;  sync:false;  allow-nsfw:false;  tail:[]
+2018/09/05 15:04:11 snoowall-cli.go:61: [INFO] Updated wallpaper: /home/monk/Pictures/Wallpapers/earthporn_9d1a29.jpg
+2018/09/05 15:04:16 snoowall-cli.go:101: [DEBUG] Arguments: sub:earthporn;  top:false;  index:1;  sync:false;  allow-nsfw:false;  tail:[]
+2018/09/05 15:04:28 snoowall-cli.go:101: [DEBUG] Arguments: sub:earthporn;  top:false;  index:1;  sync:false;  allow-nsfw:false;  tail:[]
+2018/09/05 15:04:29 snoowall-cli.go:61: [INFO] Updated wallpaper: /home/monk/Pictures/Wallpapers/earthporn_9cxv5x.jpg
+2018/09/05 15:04:34 snoowall-cli.go:101: [DEBUG] Arguments: sub:earthporn;  top:false;  index:1;  sync:false;  allow-nsfw:false;  tail:[]
+2018/09/05 15:04:38 snoowall-cli.go:61: [INFO] Updated wallpaper: /home/monk/Pictures/Wallpapers/earthporn_9d42n0.jpg
+2018/09/05 15:04:44 snoowall-cli.go:101: [DEBUG] Arguments: sub:earthporn;  top:false;  index:1;  sync:false;  allow-nsfw:false;  tail:[]
+2018/09/05 15:04:45 snoowall-cli.go:61: [INFO] Updated wallpaper: /home/monk/Pictures/Wallpapers/earthporn_9d139q.jpg
+2018/09/05 15:04:47 snoowall-cli.go:101: [DEBUG] Arguments: sub:earthporn;  top:false;  index:1;  sync:false;  allow-nsfw:false;  tail:[]
+2018/09/05 15:04:49 snoowall-cli.go:61: [INFO] Updated wallpaper: /home/monk/Pictures/Wallpapers/earthporn_9d33bk.jpg
+2018/09/05 15:04:52 snoowall-cli.go:101: [DEBUG] Arguments: sub:earthporn;  top:false;  index:1;  sync:false;  allow-nsfw:false;  tail:[]
+2018/09/05 15:04:54 snoowall-cli.go:61: [INFO] Updated wallpaper: /home/monk/Pictures/Wallpapers/earthporn_9cyn9d.jpg
+2018/09/05 15:04:56 snoowall-cli.go:101: [DEBUG] Arguments: sub:earthporn;  top:false;  index:1;  sync:false;  allow-nsfw:false;  tail:[]
+2018/09/05 15:04:57 snoowall-cli.go:61: [INFO] Updated wallpaper: /home/monk/Pictures/Wallpapers/earthporn_9d1gob.jpg
+2018/09/05 15:05:00 snoowall-cli.go:101: [DEBUG] Arguments: sub:earthporn;  top:false;  index:1;  sync:false;  allow-nsfw:false;  tail:[]
+2018/09/05 15:05:20 snoowall-cli.go:61: [INFO] Updated wallpaper: /home/monk/Pictures/Wallpapers/earthporn_9d1cot.jpg
+2018/09/05 15:05:26 snoowall-cli.go:101: [DEBUG] Arguments: sub:earthporn;  top:false;  index:1;  sync:false;  allow-nsfw:false;  tail:[]
+2018/09/05 15:05:43 snoowall-cli.go:61: [INFO] Updated wallpaper: /home/monk/Pictures/Wallpapers/earthporn_9d0up9.jpg
