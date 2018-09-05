@@ -44,6 +44,8 @@ var subreddit string
 var top, nsfw, sync bool
 var logfile = "LOG.log"
 
+var rcount = 0
+
 func saveWall(filename string, b []byte) error {
 	err := ioutil.WriteFile(filename, b, 0600)
 	return err
@@ -180,9 +182,18 @@ retry:
 	// if allow-nsfw - false, nsfw check, retry
 	if nsfw == false {
 		if post.NSFW == true {
-			fmt.Println("[DEBUG] Post is NSFW.\nRetrying...")
-			if top == false {
-				goto retry
+			if rcount == 3 {
+				fmt.Println("[DEBUG] Post is NSFW. Try an SFW subreddit.")
+				return
+			} else {
+				if top == false {
+					fmt.Println("[DEBUG] Post is NSFW. Retrying...")
+					rcount++
+					goto retry
+				} else {
+					fmt.Println("[DEBUG] Top post is NSFW.")
+					return
+				}
 			}
 		}
 	}
