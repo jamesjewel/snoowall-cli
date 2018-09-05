@@ -107,7 +107,6 @@ func main() {
 	script, err := reddit.NewScript("graw:snoowall:0.3.1 by /u/psychemerchant", rate)
 	if err != nil {
 		log.Fatalln("[FATAL] Failed to create script handle: ", err)
-		fmt.Println("[FATAL] Failed to create script handle: ", err)
 		return
 	}
 
@@ -127,8 +126,6 @@ func main() {
 		harvest, err := script.Listing(fmt.Sprintf("/r/%s", subreddit), "")
 		if err != nil {
 			log.Fatalf("[FATAL] Failed to fetch /r/%s: %s", subreddit, err)
-			fmt.Printf("[FATAL] Failed to fetch /r/%s: %s", subreddit, err)
-			return
 		}
 		var subdata saveData
 		subdata.Time = time.Now()
@@ -137,9 +134,7 @@ func main() {
 
 		length := len(harvest.Posts)
 		if length == 0 {
-			log.Println("[ERROR]: No posts! Subreddit might not exist.")
-			fmt.Println("[ERROR]: No posts! Subreddit might not exist.")
-			return
+			log.Fatalln("[ERROR]: No posts! Subreddit might not exist.")
 		}
 		for i := 0; i < length; i++ {
 			post := harvest.Posts[i]
@@ -150,7 +145,7 @@ func main() {
 		enc := gob.NewEncoder(&buff)
 		err = enc.Encode(subdata)
 		if err != nil {
-			log.Println("[ERROR]: Encoding error", err)
+			log.Fatalln("[FATAL]: Encoding error", err)
 		}
 		ioutil.WriteFile(cacheloc, buff.Bytes(), 0600)
 		log.Printf("[INFO] Synced /r/%s to %s", subreddit, cacheloc)
