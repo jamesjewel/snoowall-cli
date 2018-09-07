@@ -4,24 +4,23 @@
 
 ## Usage
 
+Synopsis:
 ```bash
-snoowall-cli [-sub subreddit] [-top] [-allow-nsfw] [-sync]
+snoowall-cli [-S, --sync][-t, --top][-n, --allow-nsfw] subreddit
 ```
 
-Options : 
+Description: 
 ```bash
--sub 
-            Name of the subreddit to fetch images from. 
+subreddit - Name of the subreddit to fetch images from. 
             If ommitted, defaults to 'wallpaper'.
-
--top 
+Flags:            
+-S, --sync
+            Manually refresh the post cache.
+-t, --top 
             Fetches the top image instead of a random one.
-
--allow-nsfw
+-n, --allow-nsfw
             Gives a pass to NSFW content that is blocked by default.
 
--sync
-            Manually refresh the post cache.
 ```
 
 
@@ -29,15 +28,15 @@ Options :
 ## Examples
 
 ```bash
-snoowall-cli -sub earthporn 
+snoowall-cli earthporn 
 ```
 Sets a random image from 'earthporn' as the desktop background.
 ```bash
-snoowall-cli -sub NSFW_Wallpapers -top -allow-nsfw 
+snoowall-cli NSFW_Wallpapers --allow-nsfw 
 ```
 Sets the top image from 'NSFW_Wallpapers', even if it is NSFW (which in this case, it clearly is).
 ```bash
-snoowall-cli -sub gmbwallpapers -sync
+snoowall-cli -S gmbwallpapers
 ```
 Syncs new posts from 'gmbwallpapers' and sets a random image as the desktop background.  
 
