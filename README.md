@@ -6,18 +6,17 @@
 
 Synopsis:
 ```bash
-snoowall-cli [-S, --sync][-t, --top][-n, --allow-nsfw] subreddit
+snoowall-cli [-R, --refresh][-s, --sort][-n, --allow-nsfw] subreddit
 ```
 
 Description: 
 ```bash
-subreddit - Name of the subreddit to fetch images from. 
-            If ommitted, defaults to 'wallpaper'.
+subreddit - Name of the subreddit to fetch images from. If ommitted, defaults to 'wallpaper'.
 Flags:            
--S, --sync
+-R, --refresh
             Manually refresh the post cache.
--t, --top 
-            Fetches the top image instead of a random one.
+-t, --sort 
+            Sorting mode: hot, top, controversial, new, best.
 -n, --allow-nsfw
             Gives a pass to NSFW content that is blocked by default.
 
@@ -36,14 +35,11 @@ snoowall-cli NSFW_Wallpapers --allow-nsfw
 ```
 Sets the top image from 'NSFW_Wallpapers', even if it is NSFW (which in this case, it clearly is).
 ```bash
-snoowall-cli -S gmbwallpapers
+snoowall-cli -Rs hot gmbwallpapers
 ```
-Syncs new posts from 'gmbwallpapers' and sets a random image as the desktop background.  
+Refreshes cache with 'hot' posts from 'gmbwallpapers' and sets a random image as the desktop background.  
 
 ## Installation
-Download the compiled executable from here: [snoowall-cli_v.0.3.1](https://www.dropbox.com/s/s1897ki9hrc09c0/snoowall-cli?dl=0)
-
-**OR**
 
 Compile from source:
 ```bash
