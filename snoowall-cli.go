@@ -25,7 +25,6 @@ package main
 import (
 	"bytes"
 	"encoding/gob"
-	"flag"
 	"fmt"
 	"io/ioutil"
 	"log"
@@ -35,13 +34,14 @@ import (
 	"time"
 
 	"github.com/reujab/wallpaper"
+	flag "github.com/spf13/pflag"
 	"github.com/turnage/graw/reddit"
 )
 
-var index int
 var subreddit string
-var top, nsfw, sync, save bool
+var top, nsfw, sync bool
 var logfile = "LOG.log"
+var index int
 
 var rcount = 0
 
@@ -81,15 +81,17 @@ type postMeta struct {
 	The main code
 */
 func main() {
-	rand.Seed(time.Now().UTC().UnixNano())
 	// collect flags
-	flag.StringVar(&subreddit, "sub", "wallpaper", "Specify the subreddit to fetch wallpapers from.")
-	flag.BoolVar(&top, "top", false, "Select the top wallpaper instead of a random one.")
-	flag.BoolVar(&nsfw, "allow-nsfw", false, "Gives a pass to NSFW content that is blocked by default.")
-	flag.BoolVar(&sync, "sync", false, "Syncs the local database with reddit.")
-	flag.BoolVar(&save, "save", false, "Saves the wallpaper locally")
-	flag.IntVar(&index, "index", 1, "Post index (0-99)")
-	flag.Parse()
+	flags := flag.NewFlagSet("snoowall-cli", flag.ExitOnError)
+	flags.BoolVarP(&top, "top", "t", false, "Select the top wallpaper instead of a random one.")
+	flags.BoolVarP(&nsfw, "allow-nsfw", "n", false, "Gives a pass to NSFW content that is blocked by default.")
+	flags.BoolVarP(&sync, "sync", "S", false, "Syncs the local database with reddit.")
+	flags.IntVar(&index, "index", 1, "nonsense")
+
+	flags.MarkHidden("top")
+	flags.MarkHidden("index")
+	flags.Parse(os.Args[1:])
+	subreddit = flags.Args()[0]
 
 	// setup logging
 	f, err := os.OpenFile(logfile, os.O_RDWR|os.O_CREATE|os.O_APPEND, 0666)
@@ -100,7 +102,7 @@ func main() {
 	log.SetOutput(f)
 	log.SetFlags(log.Ldate | log.Ltime | log.Lshortfile)
 
-	log.Printf("[DEBUG] Arguments: sub:%s;  top:%t;  index:%d;  sync:%t;  allow-nsfw:%t;  tail:%v\n", subreddit, top, index, sync, nsfw, flag.Args())
+	fmt.Printf("[DEBUG] Arguments: subreddit=%s;  top=%t;  index=%d;  sync=%t;  allow-nsfw=%t;  tail:%v\n", subreddit, top, index, sync, nsfw, flags.Args())
 
 	// initialize script to API
 	rate := 5 * time.Second
@@ -152,7 +154,7 @@ func main() {
 		log.Printf("[INFO] Synced /r/%s to %s", subreddit, cacheloc)
 	}
 
-	data, err := ioutil.ReadFile(fmt.Sprintf("%s/%s", "cache", subreddit))
+	data, err := ioutil.ReadFile(fmt.Sprintf("%s", cacheloc))
 	if err != nil {
 		log.Fatalln("[ERROR]: Cache file read error.")
 	}
@@ -165,15 +167,9 @@ retry:
 	if top == true {
 		post = cursubdata.Info[index]
 	} else if top == false {
+		rand.Seed(time.Now().UTC().UnixNano())
 		post = cursubdata.Info[rand.Intn(len(cursubdata.Info))]
 	}
-	// thread fetchinginexorable - inflexible, unable to be persuaded
-
-	// var post *reddit.Post
-	// post, err = script.Thread(postPermalink)
-	// if err != nil {
-	// 	log.Fatalf("[FATAL] Failed to fetch post: %s err:%s", postPermalink, err)
-	// }
 
 	// if allow-nsfw - false, nsfw check, retry
 	if nsfw == false {
@@ -181,15 +177,14 @@ retry:
 			if rcount == 3 {
 				fmt.Println("[DEBUG] Post is NSFW. Try an SFW subreddit.")
 				return
+			}
+			if top == false {
+				fmt.Println("[DEBUG] Post is NSFW. Retrying...")
+				rcount++
+				goto retry
 			} else {
-				if top == false {
-					fmt.Println("[DEBUG] Post is NSFW. Retrying...")
-					rcount++
-					goto retry
-				} else {
-					fmt.Println("[DEBUG] Top post is NSFW.")
-					return
-				}
+				fmt.Println("[DEBUG] Top post is NSFW.")
+				return
 			}
 		}
 	}
@@ -210,15 +205,7 @@ retry:
 
 	// if save=true, save in user's home directory, else save in cache
 	var loc string
-	if save == true {
-		loc = fmt.Sprintf("%s/%s", os.Getenv("HOME"), "Pictures/Wallpapers/")
-		if _, err := os.Stat(loc); os.IsNotExist(err) {
-			log.Println("[INFO] Wallpaper save location does not exist. Creating...")
-			os.MkdirAll(loc, os.ModePerm)
-		}
-	} else {
-		loc = fmt.Sprintf("%s/%s", os.Getenv("HOME"), ".cache/snoowall-cli/")
-	}
+	loc = fmt.Sprintf("%s/%s", os.Getenv("HOME"), ".cache/snoowall-cli/")
 	filename := fmt.Sprintf("%s%s_%s%s", loc, subreddit, post.ID, filetype)
 	err = saveWall(filename, body)
 	if err != nil {
