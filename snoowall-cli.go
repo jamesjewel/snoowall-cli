@@ -1,25 +1,11 @@
 package main
 
 /*
-	1. Imgur Integration (Done)
-	2. Wallpaper Setting (Done)
-	3. Debugging (Done)
-	4. Optimization: Switch to indexed Lurker implementation (Done)
-						  Change file name to Name (Done)
-						  Bring binary data files (Done)
-	5. Command Line Options (Done)
-	6. Logging (Done) -> Improvement
-	7. Configuration File
-	8. PNG Problem (Done)
-	9. NSFW (Done)
-	10. Develop Syncing (Done)
-	11. Auto Syncing (Done)
-	12. Sync Randomizer
-	. 	 Selective Harvest?
-	.
-	.
-
-	NaN. Graphical User Interface
+	v.0.4.0
+	Features:
+	- Sorting options
+	- Uses reddit's random listing, disables local randomizer
+	- Auto refeshing based on system time
 */
 
 import (
@@ -38,10 +24,8 @@ import (
 	"github.com/turnage/graw/reddit"
 )
 
-var subreddit string
-var top, nsfw, sync bool
-var logfile = "LOG.log"
-var index int
+var subreddit, sort string
+var nsfw, refresh bool
 
 var rcount = 0
 
@@ -83,52 +67,53 @@ type postMeta struct {
 func main() {
 	// collect flags
 	flags := flag.NewFlagSet("snoowall-cli", flag.ExitOnError)
-	flags.BoolVarP(&top, "top", "t", false, "Select the top wallpaper instead of a random one.")
+	flags.StringVarP(&sort, "sort", "s", "hot", "Specify the sorting method.")
 	flags.BoolVarP(&nsfw, "allow-nsfw", "n", false, "Gives a pass to NSFW content that is blocked by default.")
-	flags.BoolVarP(&sync, "sync", "S", false, "Syncs the local database with reddit.")
-	flags.IntVar(&index, "index", 1, "nonsense")
+	flags.BoolVarP(&refresh, "refresh", "R", false, "Refreshes the local post cache from Reddit.")
 
-	flags.MarkHidden("top")
-	flags.MarkHidden("index")
 	flags.Parse(os.Args[1:])
+	// flags.MarkDeprecated("refersh"), deprecate when auto-refresh is implemented.
 	subreddit = flags.Args()[0]
+	if sort != "hot" && sort != "top" && sort != "new" && sort != "controversial" {
+		fmt.Println("Invalid sort option.")
+		return
+	}
 
 	// setup logging
-	f, err := os.OpenFile(logfile, os.O_RDWR|os.O_CREATE|os.O_APPEND, 0666)
-	if err != nil {
-		fmt.Println("[ERROR] Error opening logfile:", err)
-	}
+	f, err := os.OpenFile("log.log", os.O_RDWR|os.O_CREATE|os.O_APPEND, 0666)
 	defer f.Close()
 	log.SetOutput(f)
 	log.SetFlags(log.Ldate | log.Ltime | log.Lshortfile)
 
-	fmt.Printf("[DEBUG] Arguments: subreddit=%s;  top=%t;  index=%d;  sync=%t;  allow-nsfw=%t;  tail:%v\n", subreddit, top, index, sync, nsfw, flags.Args())
+	log.Printf("[DEBUG] subreddit:%s;\nflags:sort=%s; refresh=%t; allow-nsfw=%t; tail:%v\n", subreddit, sort, refresh, nsfw, flags.Args())
 
 	// initialize script to API
 	rate := 5 * time.Second
-	script, err := reddit.NewScript("graw:snoowall:0.3.1 by /u/psychemerchant", rate)
+	script, err := reddit.NewScript("graw:snoowall:0.4.0 by /u/psychemerchant", rate)
 	if err != nil {
+		fmt.Println("Fatal error! Check log file for more info.")
 		log.Fatalln("[FATAL] Failed to create script handle: ", err)
-		return
 	}
 
 	// if cache does not exist, sync
 	syncLoc := fmt.Sprintf("%s/%s", os.Getenv("HOME"), ".cache/snoowall-cli")
-	cacheloc := fmt.Sprintf("%s/%s", syncLoc, subreddit)
-	if _, err := os.Stat(cacheloc); os.IsNotExist(err) {
-		sync = true
+	cachefile := fmt.Sprintf("%s/%s_%s", syncLoc, subreddit, sort)
+	if _, err := os.Stat(cachefile); os.IsNotExist(err) {
+		refresh = true
 	}
 
 	// generating cache
-	if sync == true {
+	if refresh == true {
 		if _, err := os.Stat(syncLoc); os.IsNotExist(err) {
 			os.MkdirAll(syncLoc, os.ModePerm)
 		}
-		fmt.Printf("[INFO] Syncing... /r/%s to %s\n", subreddit, cacheloc)
+		fmt.Printf("Saving post cache... /r/%s to %s\n", subreddit, cachefile)
 
-		harvest, err := script.Listing(fmt.Sprintf("/r/%s", subreddit), "")
+		harvest, err := script.Listing(fmt.Sprintf("/r/%s/%s", subreddit, sort), "")
 		if err != nil {
-			log.Fatalf("[FATAL] Failed to fetch /r/%s: %s", subreddit, err)
+			log.Printf("[FATAL] Failed to fetch /r/%s/%s: %s", subreddit, sort, err)
+			fmt.Println("Subreddit does not exist.")
+			return
 		}
 		var subdata saveData
 		subdata.Time = time.Now()
@@ -136,9 +121,6 @@ func main() {
 		subdata.Info = make([]postMeta, 0)
 
 		length := len(harvest.Posts)
-		if length == 0 {
-			log.Fatalln("[ERROR]: No posts! Subreddit might not exist.")
-		}
 		for i := 0; i < length; i++ {
 			post := harvest.Posts[i]
 			subdata.Info = append(subdata.Info, postMeta{post.Title, post.ID, post.Permalink, post.NSFW, post.URL})
@@ -148,14 +130,21 @@ func main() {
 		enc := gob.NewEncoder(&buff)
 		err = enc.Encode(subdata)
 		if err != nil {
+			fmt.Println("Fatal error! Check log file for more info.")
 			log.Fatalln("[FATAL]: Encoding error", err)
 		}
-		ioutil.WriteFile(cacheloc, buff.Bytes(), 0600)
-		log.Printf("[INFO] Synced /r/%s to %s", subreddit, cacheloc)
+		err = ioutil.WriteFile(cachefile, buff.Bytes(), 0600)
+		if err != nil {
+			fmt.Println("Fatal error! Check log file for more info.")
+			log.Fatalln("[FATAL]: Cache saving error", err)
+		}
+		log.Printf("[INFO] Synced /r/%s to %s", subreddit, cachefile)
+
 	}
 
-	data, err := ioutil.ReadFile(fmt.Sprintf("%s", cacheloc))
+	data, err := ioutil.ReadFile(fmt.Sprintf("%s", cachefile))
 	if err != nil {
+		fmt.Println("Fatal error! Check log file for more info.")
 		log.Fatalln("[ERROR]: Cache file read error.")
 	}
 	dec := gob.NewDecoder(bytes.NewReader(data))
@@ -164,41 +153,38 @@ func main() {
 	err = dec.Decode(&cursubdata)
 	var post postMeta
 retry:
-	if top == true {
-		post = cursubdata.Info[index]
-	} else if top == false {
-		rand.Seed(time.Now().UTC().UnixNano())
-		post = cursubdata.Info[rand.Intn(len(cursubdata.Info))]
-	}
+
+	rand.Seed(time.Now().UTC().UnixNano())
+	post = cursubdata.Info[rand.Intn(len(cursubdata.Info))]
 
 	// if allow-nsfw - false, nsfw check, retry
 	if nsfw == false {
 		if post.NSFW == true {
 			if rcount == 3 {
-				fmt.Println("[DEBUG] Post is NSFW. Try an SFW subreddit.")
+				fmt.Println("Post is NSFW. Try an SFW subreddit.")
 				return
 			}
-			if top == false {
-				fmt.Println("[DEBUG] Post is NSFW. Retrying...")
-				rcount++
-				goto retry
-			} else {
-				fmt.Println("[DEBUG] Top post is NSFW.")
-				return
-			}
+			// if top == false {
+			fmt.Println("Post is NSFW. Retrying...")
+			rcount++
+			goto retry
+			// } else {
+			// fmt.Println("[DEBUG] Top post is NSFW.")
+			// return
 		}
 	}
+
 	fmt.Printf("Title: %s\nURL: %s\n", post.Title, post.URL)
 	resp, err := http.Get(post.URL)
 	filetype := post.URL[len(post.URL)-4:]
 	if filetype != ".jpg" && filetype != ".png" {
 		log.Println("[ERROR] Not an image.")
-		fmt.Println("[ERROR] Not an image.")
+		fmt.Println("Post is not an image. Retrying...")
 		goto retry
 	}
 	if err != nil {
 		log.Println("[ERROR]: Couldn't fetch resource:", post.URL, err)
-		fmt.Println("[ERROR]: Couldn't fetch resource:", post.URL, err)
+		fmt.Println("Couldn't fetch resource:", post.URL, err)
 		return
 	}
 	body, _ := ioutil.ReadAll(resp.Body)
@@ -209,11 +195,13 @@ retry:
 	filename := fmt.Sprintf("%s%s_%s%s", loc, subreddit, post.ID, filetype)
 	err = saveWall(filename, body)
 	if err != nil {
+		fmt.Println("Fatal error! Check log file for more info.")
 		log.Fatalln("[ERROR] Wallpaper saving error:", err)
 	}
 
 	err = setWall(filename)
 	if err != nil {
+		fmt.Println("Fatal error! Check log file for more info.")
 		log.Println("[ERROR] Wallpaper setting error:", err)
 		return
 	}

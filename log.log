@@ -1,0 +1,19 @@
+2018/09/07 12:37:37 snoowall-cli.go:110: [FATAL] Failed to fetch /r/gonewild/sex: bad response code: 404
+2018/09/07 12:54:17 snoowall-cli.go:140: [INFO] Synced /r/gonewild to /home/monk/.cache/snoowall-cli/gonewild_hot
+2018/09/07 13:09:24 snoowall-cli.go:140: [INFO] Synced /r/earthporn to /home/monk/.cache/snoowall-cli/earthporn_hot
+2018/09/07 13:09:29 snoowall-cli.go:46: [INFO] Updated wallpaper: /home/monk/.cache/snoowall-cli/earthporn_9dp1j8.jpg
+2018/09/07 13:09:35 snoowall-cli.go:46: [INFO] Updated wallpaper: /home/monk/.cache/snoowall-cli/earthporn_9dks3s.jpg
+2018/09/07 13:09:42 snoowall-cli.go:46: [INFO] Updated wallpaper: /home/monk/.cache/snoowall-cli/earthporn_9dbr9e.jpg
+2018/09/07 13:09:47 snoowall-cli.go:46: [INFO] Updated wallpaper: /home/monk/.cache/snoowall-cli/earthporn_9dc8e2.jpg
+2018/09/07 13:09:57 snoowall-cli.go:46: [INFO] Updated wallpaper: /home/monk/.cache/snoowall-cli/earthporn_9dp1j8.jpg
+2018/09/07 13:10:03 snoowall-cli.go:140: [INFO] Synced /r/earthporn to /home/monk/.cache/snoowall-cli/earthporn_new
+2018/09/07 13:10:06 snoowall-cli.go:46: [INFO] Updated wallpaper: /home/monk/.cache/snoowall-cli/earthporn_9dht1b.jpg
+2018/09/07 13:10:11 snoowall-cli.go:46: [INFO] Updated wallpaper: /home/monk/.cache/snoowall-cli/earthporn_9dj2vj.jpg
+2018/09/07 13:10:16 snoowall-cli.go:46: [INFO] Updated wallpaper: /home/monk/.cache/snoowall-cli/earthporn_9dhw1y.jpg
+2018/09/07 13:10:20 snoowall-cli.go:46: [INFO] Updated wallpaper: /home/monk/.cache/snoowall-cli/earthporn_9dfy7b.jpg
+2018/09/07 13:10:24 snoowall-cli.go:179: [ERROR] Not an image.
+2018/09/07 13:10:25 snoowall-cli.go:46: [INFO] Updated wallpaper: /home/monk/.cache/snoowall-cli/earthporn_9doho7.jpg
+2018/09/07 13:10:29 snoowall-cli.go:46: [INFO] Updated wallpaper: /home/monk/.cache/snoowall-cli/earthporn_9do0zs.jpg
+2018/09/07 13:10:32 snoowall-cli.go:46: [INFO] Updated wallpaper: /home/monk/.cache/snoowall-cli/earthporn_9dnnni.jpg
+2018/09/07 13:10:37 snoowall-cli.go:46: [INFO] Updated wallpaper: /home/monk/.cache/snoowall-cli/earthporn_9dh8fo.jpg
+2018/09/07 13:37:48 snoowall-cli.go:46: [INFO] Updated wallpaper: /home/monk/.cache/snoowall-cli/earthporn_9dp8eq.jpg
