@@ -3,7 +3,7 @@ package main
 /*
 	v.0.4.0
 	Features:
-	- Sorting options
+	+ Sorting options
 	- Uses reddit's random listing, disables local randomizer
 	- Auto refeshing based on system time
 */
@@ -73,8 +73,12 @@ func main() {
 
 	flags.Parse(os.Args[1:])
 	// flags.MarkDeprecated("refersh"), deprecate when auto-refresh is implemented.
+	if len(flags.Args()) == 0 {
+		fmt.Println("Specify a subreddit to fetch images from.")
+		return
+	}
 	subreddit = flags.Args()[0]
-	if sort != "hot" && sort != "top" && sort != "new" && sort != "controversial" {
+	if sort != "hot" && sort != "top" && sort != "new" && sort != "controversial" && sort != "best" {
 		fmt.Println("Invalid sort option.")
 		return
 	}
@@ -112,7 +116,7 @@ func main() {
 		harvest, err := script.Listing(fmt.Sprintf("/r/%s/%s", subreddit, sort), "")
 		if err != nil {
 			log.Printf("[FATAL] Failed to fetch /r/%s/%s: %s", subreddit, sort, err)
-			fmt.Println("Subreddit does not exist.")
+			fmt.Printf("Fatal error! Failed to fetch /r/%s/%s: %s", subreddit, sort, err)
 			return
 		}
 		var subdata saveData
@@ -121,6 +125,10 @@ func main() {
 		subdata.Info = make([]postMeta, 0)
 
 		length := len(harvest.Posts)
+		if length == 0 {
+			fmt.Println("No posts! Subreddit might not exist.")
+			return
+		}
 		for i := 0; i < length; i++ {
 			post := harvest.Posts[i]
 			subdata.Info = append(subdata.Info, postMeta{post.Title, post.ID, post.Permalink, post.NSFW, post.URL})
@@ -153,7 +161,6 @@ func main() {
 	err = dec.Decode(&cursubdata)
 	var post postMeta
 retry:
-
 	rand.Seed(time.Now().UTC().UnixNano())
 	post = cursubdata.Info[rand.Intn(len(cursubdata.Info))]
 

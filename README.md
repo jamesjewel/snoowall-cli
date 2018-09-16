@@ -15,8 +15,8 @@ subreddit - Name of the subreddit to fetch images from. If ommitted, defaults to
 Flags:            
 -R, --refresh
             Manually refresh the post cache.
--t, --sort 
-            Sorting mode: hot, top, controversial, new, best.
+-s, --sort 
+            Grabs posts from a list sorted by this mode: hot, top, controversial, new, best.
 -n, --allow-nsfw
             Gives a pass to NSFW content that is blocked by default.
 
