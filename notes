@@ -1,0 +1,21 @@
+On the agenda - Develop snoowall-cli
+
+Features:
+[X] Optional save / Removal
+[/] Fetch by tagname and subreddit
+[X] Add fetching by 'hot', 'new', 'best' etc.
+[ ] Autosyncing
+
+Fixes:
+[X] Error throwing and logging system.
+[X] NSFW timeout and message
+[ ] Filetype ID?
+[X] Autocreating directories
+[X] POSIX compilant flags
+[ ] Independent subreddit validity checking
+
+Tests:
+[PASS] If cache dir do not exist
+[PASS] If wallpaper dir do not exist do not exist
+
+snoowall-cli -s new earthporn
