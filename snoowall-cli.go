@@ -5,8 +5,8 @@ package main
 	TODO Features:
 	x Sorting options
         x Identifying wallpaper-suitable images using the aspect ratio
-          - Add support for curly brackets for resolution
-        - Timestamp based file-naming
+          x Add support for curly brackets for resolution
+        x Timestamp based file-naming
 	- Uses reddit's random listing, disables local randomizer
 	- Auto refeshing based on system time
 */
@@ -190,16 +190,16 @@ retry:
 
 	fmt.Printf("Title: %s\nURL: %s\nId: %s\n", post.Title, post.URL, post.ID)
 	// Check if the image is suitable as a wallpaper
-	var resRegexString string = `\[(\d{2,4})\s?[xX]\s?(\d{2,4})\]$`
+	var resRegexString string = `(\[|\()(\d{2,4})\s?[xX]\s?(\d{2,4})(\)|\])`
 	re := regexp.MustCompile(resRegexString)
 	match := re.FindStringSubmatch(post.Title)
 	fmt.Printf("%q\n", match)
-	if len(match) != 3 {
+	if len(match) != 5 {
 		fmt.Printf("No resolution info in the post title. Retrying...\n")
 		goto retry
 	}
-	resWidth, _ := strconv.Atoi(match[1])
-	resHeight, _ := strconv.Atoi(match[2])
+	resWidth, _ := strconv.Atoi(match[2])
+	resHeight, _ := strconv.Atoi(match[3])
 	fmt.Printf("%d %d\n", resWidth, resHeight)
 	ratio := float64(resWidth)/float64(resHeight)
 	fmt.Printf("Ratio: %f\n", ratio)
