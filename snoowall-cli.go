@@ -204,7 +204,7 @@ retry:
 		goto retry
 	}
 	// Get the image
-	resp, err := http.Get(post.UL)
+	resp, err := http.Get(post.URL)
 	filetype := post.URL[len(post.URL)-4:]
 	if filetype != ".jpg" && filetype != ".png" {
 		log.Println("[ERROR] Not an image.")
