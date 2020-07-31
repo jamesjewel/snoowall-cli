@@ -43,8 +43,9 @@ Refreshes cache with 'hot' posts from 'gmbwallpapers' and sets a random image as
 
 Compile from source:
 ```bash
-go get "github.com/reujab/wallpaper"
-go get "github.com/turnage/graw/reddit"
+go get github.com/reujab/wallpaper
+go get github.com/turnage/graw/reddit
+go get github.com/spf13/pflag
 go build snoowall-cli.go
 ```
 For convinience you can add it to the system `PATH` or make a symlink to the `snoowall-cli` executable in `/usr/bin`
