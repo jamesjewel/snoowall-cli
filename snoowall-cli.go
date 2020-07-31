@@ -3,8 +3,10 @@ package main
 /*
 	v.0.4.1.dev1
 	TODO Features:
-	+ Sorting options
-        + Identifying wallpaper-suitable images using the aspect ratio
+	x Sorting options
+        x Identifying wallpaper-suitable images using the aspect ratio
+          - Add support for curly brackets for resolution
+        - Timestamp based file-naming
 	- Uses reddit's random listing, disables local randomizer
 	- Auto refeshing based on system time
 */
@@ -94,6 +96,8 @@ func main() {
 
 	log.Printf("[DEBUG] subreddit:%s;\nflags:sort=%s; refresh=%t; allow-nsfw=%t; tail:%v\n", subreddit, sort, refresh, nsfw, flags.Args())
 
+	// Get time
+	t := time.Now()
 	// initialize script to API
 	rate := 5 * time.Second
 	script, err := reddit.NewScript("graw:snoowall:0.4.0 by /u/psychemerchant", rate)
@@ -123,7 +127,7 @@ func main() {
 			return
 		}
 		var subdata saveData
-		subdata.Time = time.Now()
+		subdata.Time = t
 		subdata.Subreddit = subreddit
 		subdata.Info = make([]postMeta, 0)
 
@@ -221,7 +225,7 @@ retry:
 	// if save=true, save in user's home directory, else save in cache
 	var loc string
 	loc = fmt.Sprintf("%s/%s", os.Getenv("HOME"), ".cache/snoowall-cli/")
-	filename := fmt.Sprintf("%s%s_%s%s", loc, subreddit, post.ID, filetype)
+	filename := fmt.Sprintf("%s%s-%s-%s%s", loc, t.Format("20060102150405"), subreddit, post.ID, filetype)
 	err = saveWall(filename, body)
 	if err != nil {
 		fmt.Println("Fatal error! Check log file for more info.")
