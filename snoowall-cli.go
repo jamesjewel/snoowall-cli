@@ -1,9 +1,10 @@
 package main
 
 /*
-	v.0.4.0
-	Features:
+	v.0.4.1.dev1
+	TODO Features:
 	+ Sorting options
+        + Identifying wallpaper-suitable images using the aspect ratio
 	- Uses reddit's random listing, disables local randomizer
 	- Auto refeshing based on system time
 */
