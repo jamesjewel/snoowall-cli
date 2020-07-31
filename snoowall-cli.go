@@ -13,7 +13,9 @@ import (
 	"bytes"
 	"encoding/gob"
 	"fmt"
+	"strconv"
 	"io/ioutil"
+	"regexp"
 	"log"
 	"math/rand"
 	"net/http"
@@ -183,7 +185,26 @@ retry:
 	}
 
 	fmt.Printf("Title: %s\nURL: %s\nId: %s\n", post.Title, post.URL, post.ID)
-	resp, err := http.Get(post.URL)
+	// Check if the image is suitable as a wallpaper
+	var resRegexString string = `\[(\d{2,4})\s?[xX]\s?(\d{2,4})\]$`
+	re := regexp.MustCompile(resRegexString)
+	match := re.FindStringSubmatch(post.Title)
+	fmt.Printf("%q\n", match)
+	if len(match) != 3 {
+		fmt.Printf("No resolution info in the post title. Retrying...\n")
+		goto retry
+	}
+	resWidth, _ := strconv.Atoi(match[1])
+	resHeight, _ := strconv.Atoi(match[2])
+	fmt.Printf("%d %d\n", resWidth, resHeight)
+	ratio := resWidth/resHeight
+	fmt.Printf("Ratio: %d\n", ratio)
+	if ratio < 1 {
+		fmt.Printf("Not sure if that's a good size for a wallpaper. Retrying...\n")
+		goto retry
+	}
+	// Get the image
+	resp, err := http.Get(post.UL)
 	filetype := post.URL[len(post.URL)-4:]
 	if filetype != ".jpg" && filetype != ".png" {
 		log.Println("[ERROR] Not an image.")
