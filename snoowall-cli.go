@@ -181,7 +181,7 @@ retry:
 		}
 	}
 
-	fmt.Printf("Title: %s\nURL: %s\n", post.Title, post.URL)
+	fmt.Printf("Title: %s\nURL: %s\nId: %s\n", post.Title, post.URL, post.ID)
 	resp, err := http.Get(post.URL)
 	filetype := post.URL[len(post.URL)-4:]
 	if filetype != ".jpg" && filetype != ".png" {
