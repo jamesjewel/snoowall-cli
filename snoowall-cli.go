@@ -197,9 +197,9 @@ retry:
 	resWidth, _ := strconv.Atoi(match[1])
 	resHeight, _ := strconv.Atoi(match[2])
 	fmt.Printf("%d %d\n", resWidth, resHeight)
-	ratio := resWidth/resHeight
-	fmt.Printf("Ratio: %d\n", ratio)
-	if ratio < 1 {
+	ratio := float64(resWidth)/float64(resHeight)
+	fmt.Printf("Ratio: %f\n", ratio)
+	if ratio < 1.2 {
 		fmt.Printf("Not sure if that's a good size for a wallpaper. Retrying...\n")
 		goto retry
 	}
