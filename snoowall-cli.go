@@ -8,9 +8,10 @@ package main
           x Add support for curly brackets for resolution
         x Timestamp based file-naming
         x If omitted, default to r/wallpaper
-        - Create log in the cache directory
+        x Create log in the cache directory
 	- Uses reddit's random listing, disables local randomizer
 	- Auto refeshing based on system time
+        - Improve logging
 */
 
 import (
@@ -92,8 +93,10 @@ func main() {
 		return
 	}
 
+	// Set data directory
+	syncLoc := fmt.Sprintf("%s/%s", os.Getenv("HOME"), ".cache/snoowall-cli")
 	// setup logging
-	f, err := os.OpenFile("log.log", os.O_RDWR|os.O_CREATE|os.O_APPEND, 0666)
+	f, err := os.OpenFile(fmt.Sprintf("%s/%s", syncLoc, "log.log"), os.O_RDWR|os.O_CREATE|os.O_APPEND, 0666)
 	defer f.Close()
 	log.SetOutput(f)
 	log.SetFlags(log.Ldate | log.Ltime | log.Lshortfile)
@@ -111,7 +114,6 @@ func main() {
 	}
 
 	// if cache does not exist, sync
-	syncLoc := fmt.Sprintf("%s/%s", os.Getenv("HOME"), ".cache/snoowall-cli")
 	cachefile := fmt.Sprintf("%s/%s_%s", syncLoc, subreddit, sort)
 	if _, err := os.Stat(cachefile); os.IsNotExist(err) {
 		refresh = true
