@@ -7,6 +7,8 @@ package main
         x Identifying wallpaper-suitable images using the aspect ratio
           x Add support for curly brackets for resolution
         x Timestamp based file-naming
+        x If omitted, default to r/wallpaper
+        - Create log in the cache directory
 	- Uses reddit's random listing, disables local randomizer
 	- Auto refeshing based on system time
 */
@@ -77,12 +79,14 @@ func main() {
 	flags.BoolVarP(&refresh, "refresh", "R", false, "Refreshes the local post cache from Reddit.")
 
 	flags.Parse(os.Args[1:])
-	// flags.MarkDeprecated("refersh"), deprecate when auto-refresh is implemented.
+	// TODO flags.MarkDeprecated("refersh"), deprecate when auto-refresh is implemented.
 	if len(flags.Args()) == 0 {
-		fmt.Println("Specify a subreddit to fetch images from.")
-		return
+		// fmt.Println("Specify a subreddit to fetch images from.")
+		// return
+		subreddit = "wallpaper"
+	} else {
+		subreddit = flags.Args()[0]
 	}
-	subreddit = flags.Args()[0]
 	if sort != "hot" && sort != "top" && sort != "new" && sort != "controversial" && sort != "best" {
 		fmt.Println("Invalid sort option.")
 		return
