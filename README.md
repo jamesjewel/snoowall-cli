@@ -1,6 +1,6 @@
 # snoowall-cli
 
-`snoowall-cli` is a command-line utility which sets images from Reddit as your desktop background. All you have to do is pass it a subreddit of your choice. It is written in *golang*, by a nifty young developer with a supposedly girly name.
+`snoowall-cli` is a command-line utility which fetches images from Reddit and set them as your desktop background. All you have to do is pass it a subreddit of your choice. It is written in Go, by a nifty young developer.
 
 ## Usage
 
@@ -22,22 +22,21 @@ Flags:
 
 ```
 
-
-
 ## Examples
 
 ```bash
-snoowall-cli earthporn 
+$ snoowall-cli earthporn 
 ```
-Sets a random image from 'earthporn' as the desktop background.
+Sets an image from 'earthporn' as the desktop background.
 ```bash
-snoowall-cli NSFW_Wallpapers --allow-nsfw 
+$ snoowall-cli NSFW_Wallpapers --allow-nsfw 
 ```
-Sets the top image from 'NSFW_Wallpapers', even if it is NSFW (which in this case, it clearly is).
+Sets an image from 'NSFW_Wallpapers', even if it is NSFW.
+
 ```bash
-snoowall-cli -Rs hot gmbwallpapers
+$ snoowall-cli -s hot skyporn
 ```
-Refreshes cache with 'hot' posts from 'gmbwallpapers' and sets a random image as the desktop background.  
+Refreshes cache with 'hot' posts from 'skyporn' and sets a random image as the desktop background. 
 
 ## Installation
 
