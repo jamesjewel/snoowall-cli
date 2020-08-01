@@ -116,22 +116,23 @@ func main() {
 	cachefile := fmt.Sprintf("%s/%s_%s", syncLoc, subreddit, sort)
 	if _, err := os.Stat(cachefile); os.IsNotExist(err) {
 		refresh = true
-	}
-	data, err := ioutil.ReadFile(fmt.Sprintf("%s", cachefile))
-	if err != nil {
-		fmt.Println("Fatal error! Check log file for more info.")
-		log.Fatalln("[ERROR]: Cache file read error.")
-	}
-	dec := gob.NewDecoder(bytes.NewReader(data))
-	var cachedata saveData
-	cachedata.Info = make([]postMeta, 0)
-	err = dec.Decode(&cachedata)
-	if err != nil {
-	}
-	lasttime := cachedata.Time
-	// If cache is older than 5 days
-	if (t.Unix() - lasttime.Unix()) >= 432000 {
-		refresh = true
+	} else {
+		data, err := ioutil.ReadFile(fmt.Sprintf("%s", cachefile))
+		if err != nil {
+			fmt.Println("Fatal error! Check log file for more info.")
+			log.Fatalln("[ERROR]: Cache file read error.")
+		}
+		dec := gob.NewDecoder(bytes.NewReader(data))
+		var cachedata saveData
+		cachedata.Info = make([]postMeta, 0)
+		err = dec.Decode(&cachedata)
+		if err != nil {
+		}
+		lasttime := cachedata.Time
+		// If cache is older than 5 days
+		if (t.Unix() - lasttime.Unix()) >= 432000 {
+			refresh = true
+		}
 	}
 
 	// generating cache
@@ -178,12 +179,12 @@ func main() {
 
 	}
 
-	data, err = ioutil.ReadFile(fmt.Sprintf("%s", cachefile))
+	data, err := ioutil.ReadFile(fmt.Sprintf("%s", cachefile))
 	if err != nil {
 		fmt.Println("Fatal error! Check log file for more info.")
 		log.Fatalln("[ERROR]: Cache file read error.")
 	}
-	dec = gob.NewDecoder(bytes.NewReader(data))
+	dec := gob.NewDecoder(bytes.NewReader(data))
 	var cursubdata saveData
 	cursubdata.Info = make([]postMeta, 0)
 	err = dec.Decode(&cursubdata)
