@@ -1,0 +1,10 @@
+
+* DONE Sorting options
+* DONE Identifying wallpaper-suitable images using the aspect ratio
+** DONE Add support for curly brackets for resolution
+* DONE Timestamp based file-naming
+* DONE If omitted, default to r/wallpaper
+* DONE Create log in the cache directory
+- Uses reddit's random listing, disables local randomise function.
+* Auto refeshing based on system time
+- Improve logging
