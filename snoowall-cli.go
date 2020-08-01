@@ -1,7 +1,7 @@
 package main
 
 /*
-	v.0.4.1.dev1
+	v.0.5.dev2
 	TODO Features:
 	x Sorting options
         x Identifying wallpaper-suitable images using the aspect ratio
@@ -10,7 +10,7 @@ package main
         x If omitted, default to r/wallpaper
         x Create log in the cache directory
 	- Uses reddit's random listing, disables local randomizer
-	- Auto refeshing based on system time
+	x Auto refeshing based on system time
         - Improve logging
 */
 
@@ -80,7 +80,6 @@ func main() {
 	flags.BoolVarP(&refresh, "refresh", "R", false, "Refreshes the local post cache from Reddit.")
 
 	flags.Parse(os.Args[1:])
-	// TODO flags.MarkDeprecated("refersh"), deprecate when auto-refresh is implemented.
 	if len(flags.Args()) == 0 {
 		// fmt.Println("Specify a subreddit to fetch images from.")
 		// return
@@ -116,6 +115,22 @@ func main() {
 	// if cache does not exist, sync
 	cachefile := fmt.Sprintf("%s/%s_%s", syncLoc, subreddit, sort)
 	if _, err := os.Stat(cachefile); os.IsNotExist(err) {
+		refresh = true
+	}
+	data, err := ioutil.ReadFile(fmt.Sprintf("%s", cachefile))
+	if err != nil {
+		fmt.Println("Fatal error! Check log file for more info.")
+		log.Fatalln("[ERROR]: Cache file read error.")
+	}
+	dec := gob.NewDecoder(bytes.NewReader(data))
+	var cachedata saveData
+	cachedata.Info = make([]postMeta, 0)
+	err = dec.Decode(&cachedata)
+	if err != nil {
+	}
+	lasttime := cachedata.Time
+	// If cache is older than 5 days
+	if (t.Unix() - lasttime.Unix()) >= 432000 {
 		refresh = true
 	}
 
@@ -163,12 +178,12 @@ func main() {
 
 	}
 
-	data, err := ioutil.ReadFile(fmt.Sprintf("%s", cachefile))
+	data, err = ioutil.ReadFile(fmt.Sprintf("%s", cachefile))
 	if err != nil {
 		fmt.Println("Fatal error! Check log file for more info.")
 		log.Fatalln("[ERROR]: Cache file read error.")
 	}
-	dec := gob.NewDecoder(bytes.NewReader(data))
+	dec = gob.NewDecoder(bytes.NewReader(data))
 	var cursubdata saveData
 	cursubdata.Info = make([]postMeta, 0)
 	err = dec.Decode(&cursubdata)
