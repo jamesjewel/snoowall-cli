@@ -44,6 +44,7 @@ Refreshes cache with 'hot' posts from 'skyporn' and sets a random image as the d
 Compile from source:
 ```bash
 $ git clone https://github.com/flakyhermit/snoowall-cli.git
+$ cd snoowall-cli
 $ go build .
 ```
 For convenience you can add it to the system `PATH` or make a symlink to the `snoowall-cli` executable in `/usr/bin`
