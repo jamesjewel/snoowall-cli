@@ -33,7 +33,7 @@ import (
 )
 
 var subreddit, sort string
-var nsfw, refresh bool
+var nsfw, aratio, refresh bool
 
 var rcount = 0
 
@@ -77,6 +77,7 @@ func main() {
 	flags := flag.NewFlagSet("snoowall-cli", flag.ExitOnError)
 	flags.StringVarP(&sort, "sort", "s", "hot", "Specify the sorting method.")
 	flags.BoolVarP(&nsfw, "allow-nsfw", "n", false, "Gives a pass to NSFW content that is blocked by default.")
+	flags.BoolVarP(&aratio, "disable-aspect-ratio", "r", false, "Disable checking the aspect ratio for wallpaper suitability.")
 	flags.BoolVarP(&refresh, "refresh", "R", false, "Refreshes the local post cache from Reddit.")
 
 	flags.Parse(os.Args[1:])
@@ -213,23 +214,27 @@ retry:
 
 	fmt.Printf("Title: %s\nURL: %s\n", post.Title, post.URL)
 	// Check if the image is suitable as a wallpaper
-	var resRegexString string = `(\[|\()(\d{2,4})\s?[xX]\s?(\d{2,4})(\)|\])`
-	re := regexp.MustCompile(resRegexString)
-	match := re.FindStringSubmatch(post.Title)
-	// fmt.Printf("%q\n", match)
-	if len(match) != 5 {
-		fmt.Printf("No resolution info in the post title. Retrying...\n")
-		goto retry
+	// Before that, check if the flag is disabled
+	if aratio == false {
+		var resRegexString string = `(\[|\()(\d{2,4})\s?[xX]\s?(\d{2,4})(\)|\])`
+		re := regexp.MustCompile(resRegexString)
+		match := re.FindStringSubmatch(post.Title)
+		// fmt.Printf("%q\n", match)
+		if len(match) != 5 {
+			fmt.Printf("No resolution info in the post title. Retrying...\n")
+			goto retry
+		}
+		resWidth, _ := strconv.Atoi(match[2])
+		resHeight, _ := strconv.Atoi(match[3])
+		// fmt.Printf("%d %d\n", resWidth, resHeight)
+		ratio := float64(resWidth)/float64(resHeight)
+		// fmt.Printf("Ratio: %f\n", ratio)
+		if ratio < 1.2 {
+			fmt.Printf("Not sure if that's a good size for a wallpaper. Retrying...\n")
+			goto retry
+		}
 	}
-	resWidth, _ := strconv.Atoi(match[2])
-	resHeight, _ := strconv.Atoi(match[3])
-	// fmt.Printf("%d %d\n", resWidth, resHeight)
-	ratio := float64(resWidth)/float64(resHeight)
-	// fmt.Printf("Ratio: %f\n", ratio)
-	if ratio < 1.2 {
-		fmt.Printf("Not sure if that's a good size for a wallpaper. Retrying...\n")
-		goto retry
-	}
+
 	// Get the image
 	resp, err := http.Get(post.URL)
 	filetype := post.URL[len(post.URL)-4:]
