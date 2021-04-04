@@ -127,6 +127,7 @@ func main() {
 		cachedata.Info = make([]postMeta, 0)
 		err = dec.Decode(&cachedata)
 		if err != nil {
+			// TODO
 		}
 		lasttime := cachedata.Time
 		// If cache is older than 5 days
