@@ -211,21 +211,21 @@ retry:
 		}
 	}
 
-	fmt.Printf("Title: %s\nURL: %s\nId: %s\n", post.Title, post.URL, post.ID)
+	fmt.Printf("Title: %s\nURL: %s\n", post.Title, post.URL)
 	// Check if the image is suitable as a wallpaper
 	var resRegexString string = `(\[|\()(\d{2,4})\s?[xX]\s?(\d{2,4})(\)|\])`
 	re := regexp.MustCompile(resRegexString)
 	match := re.FindStringSubmatch(post.Title)
-	fmt.Printf("%q\n", match)
+	// fmt.Printf("%q\n", match)
 	if len(match) != 5 {
 		fmt.Printf("No resolution info in the post title. Retrying...\n")
 		goto retry
 	}
 	resWidth, _ := strconv.Atoi(match[2])
 	resHeight, _ := strconv.Atoi(match[3])
-	fmt.Printf("%d %d\n", resWidth, resHeight)
+	// fmt.Printf("%d %d\n", resWidth, resHeight)
 	ratio := float64(resWidth)/float64(resHeight)
-	fmt.Printf("Ratio: %f\n", ratio)
+	// fmt.Printf("Ratio: %f\n", ratio)
 	if ratio < 1.2 {
 		fmt.Printf("Not sure if that's a good size for a wallpaper. Retrying...\n")
 		goto retry
