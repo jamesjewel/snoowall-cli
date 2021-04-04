@@ -1,0 +1,15 @@
+
+* DONE Toggle flag for resolution filtering
+* TODO Check aspect ratio for image before applying wallpaper
+* TODO Even better, check the wallpaper ratio and set the fill mode appropriately
+* TODO Switch to github.com/austinhyde/wallpaper-go
+For wallpaper styles
+* DONE Sorting options
+* DONE Identifying wallpaper-suitable images using the aspect ratio
+** DONE Add support for curly brackets for resolution
+* DONE Timestamp based file-naming
+* DONE If omitted, default to r/wallpaper
+* DONE Create log in the cache directory
+- Uses reddit's random listing, disables local randomise function.
+* Auto refeshing based on system time
+- Improve logging

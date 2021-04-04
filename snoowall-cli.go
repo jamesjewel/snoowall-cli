@@ -1,19 +1,26 @@
 package main
 
 /*
-	v.0.4.1.dev1
+	v.0.5.dev2
 	TODO Features:
-	+ Sorting options
-        + Identifying wallpaper-suitable images using the aspect ratio
+	x Sorting options
+        x Identifying wallpaper-suitable images using the aspect ratio
+          x Add support for curly brackets for resolution
+        x Timestamp based file-naming
+        x If omitted, default to r/wallpaper
+        x Create log in the cache directory
 	- Uses reddit's random listing, disables local randomizer
-	- Auto refeshing based on system time
+	x Auto refeshing based on system time
+        - Improve logging
 */
 
 import (
 	"bytes"
 	"encoding/gob"
 	"fmt"
+	"strconv"
 	"io/ioutil"
+	"regexp"
 	"log"
 	"math/rand"
 	"net/http"
@@ -26,7 +33,7 @@ import (
 )
 
 var subreddit, sort string
-var nsfw, refresh bool
+var nsfw, aratio, refresh bool
 
 var rcount = 0
 
@@ -70,28 +77,34 @@ func main() {
 	flags := flag.NewFlagSet("snoowall-cli", flag.ExitOnError)
 	flags.StringVarP(&sort, "sort", "s", "hot", "Specify the sorting method.")
 	flags.BoolVarP(&nsfw, "allow-nsfw", "n", false, "Gives a pass to NSFW content that is blocked by default.")
+	flags.BoolVarP(&aratio, "allow-all-sizes", "r", false, "Disable checking the aspect ratio for wallpaper suitability.")
 	flags.BoolVarP(&refresh, "refresh", "R", false, "Refreshes the local post cache from Reddit.")
 
 	flags.Parse(os.Args[1:])
-	// flags.MarkDeprecated("refersh"), deprecate when auto-refresh is implemented.
 	if len(flags.Args()) == 0 {
-		fmt.Println("Specify a subreddit to fetch images from.")
-		return
+		// fmt.Println("Specify a subreddit to fetch images from.")
+		// return
+		subreddit = "wallpaper"
+	} else {
+		subreddit = flags.Args()[0]
 	}
-	subreddit = flags.Args()[0]
 	if sort != "hot" && sort != "top" && sort != "new" && sort != "controversial" && sort != "best" {
 		fmt.Println("Invalid sort option.")
 		return
 	}
 
+	// Set data directory
+	syncLoc := fmt.Sprintf("%s/%s", os.Getenv("HOME"), ".cache/snoowall-cli")
 	// setup logging
-	f, err := os.OpenFile("log.log", os.O_RDWR|os.O_CREATE|os.O_APPEND, 0666)
+	f, err := os.OpenFile(fmt.Sprintf("%s/%s", syncLoc, "log.log"), os.O_RDWR|os.O_CREATE|os.O_APPEND, 0666)
 	defer f.Close()
 	log.SetOutput(f)
 	log.SetFlags(log.Ldate | log.Ltime | log.Lshortfile)
 
 	log.Printf("[DEBUG] subreddit:%s;\nflags:sort=%s; refresh=%t; allow-nsfw=%t; tail:%v\n", subreddit, sort, refresh, nsfw, flags.Args())
 
+	// Get time
+	t := time.Now()
 	// initialize script to API
 	rate := 5 * time.Second
 	script, err := reddit.NewScript("graw:snoowall:0.4.0 by /u/psychemerchant", rate)
@@ -101,10 +114,27 @@ func main() {
 	}
 
 	// if cache does not exist, sync
-	syncLoc := fmt.Sprintf("%s/%s", os.Getenv("HOME"), ".cache/snoowall-cli")
 	cachefile := fmt.Sprintf("%s/%s_%s", syncLoc, subreddit, sort)
 	if _, err := os.Stat(cachefile); os.IsNotExist(err) {
 		refresh = true
+	} else {
+		data, err := ioutil.ReadFile(fmt.Sprintf("%s", cachefile))
+		if err != nil {
+			fmt.Println("Fatal error! Check log file for more info.")
+			log.Fatalln("[ERROR]: Cache file read error.")
+		}
+		dec := gob.NewDecoder(bytes.NewReader(data))
+		var cachedata saveData
+		cachedata.Info = make([]postMeta, 0)
+		err = dec.Decode(&cachedata)
+		if err != nil {
+			// TODO
+		}
+		lasttime := cachedata.Time
+		// If cache is older than 5 days
+		if (t.Unix() - lasttime.Unix()) >= 432000 {
+			refresh = true
+		}
 	}
 
 	// generating cache
@@ -121,7 +151,7 @@ func main() {
 			return
 		}
 		var subdata saveData
-		subdata.Time = time.Now()
+		subdata.Time = t
 		subdata.Subreddit = subreddit
 		subdata.Info = make([]postMeta, 0)
 
@@ -182,7 +212,30 @@ retry:
 		}
 	}
 
-	fmt.Printf("Title: %s\nURL: %s\nId: %s\n", post.Title, post.URL, post.ID)
+	fmt.Printf("Title: %s\nURL: %s\n", post.Title, post.URL)
+	// Check if the image is suitable as a wallpaper
+	// Before that, check if the flag is disabled
+	if aratio == false {
+		var resRegexString string = `(\[|\()(\d{2,4})\s?[xX]\s?(\d{2,4})(\)|\])`
+		re := regexp.MustCompile(resRegexString)
+		match := re.FindStringSubmatch(post.Title)
+		// fmt.Printf("%q\n", match)
+		if len(match) != 5 {
+			fmt.Printf("No resolution info in the post title. Retrying...\n")
+			goto retry
+		}
+		resWidth, _ := strconv.Atoi(match[2])
+		resHeight, _ := strconv.Atoi(match[3])
+		// fmt.Printf("%d %d\n", resWidth, resHeight)
+		ratio := float64(resWidth)/float64(resHeight)
+		// fmt.Printf("Ratio: %f\n", ratio)
+		if ratio < 1.2 {
+			fmt.Printf("Not sure if that's a good size for a wallpaper. Retrying...\n")
+			goto retry
+		}
+	}
+
+	// Get the image
 	resp, err := http.Get(post.URL)
 	filetype := post.URL[len(post.URL)-4:]
 	if filetype != ".jpg" && filetype != ".png" {
@@ -200,7 +253,7 @@ retry:
 	// if save=true, save in user's home directory, else save in cache
 	var loc string
 	loc = fmt.Sprintf("%s/%s", os.Getenv("HOME"), ".cache/snoowall-cli/")
-	filename := fmt.Sprintf("%s%s_%s%s", loc, subreddit, post.ID, filetype)
+	filename := fmt.Sprintf("%s%s-%s-%s%s", loc, t.Format("20060102150405"), subreddit, post.ID, filetype)
 	err = saveWall(filename, body)
 	if err != nil {
 		fmt.Println("Fatal error! Check log file for more info.")
