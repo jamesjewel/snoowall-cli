@@ -77,7 +77,7 @@ func main() {
 	flags := flag.NewFlagSet("snoowall-cli", flag.ExitOnError)
 	flags.StringVarP(&sort, "sort", "s", "hot", "Specify the sorting method.")
 	flags.BoolVarP(&nsfw, "allow-nsfw", "n", false, "Gives a pass to NSFW content that is blocked by default.")
-	flags.BoolVarP(&aratio, "disable-aspect-ratio", "r", false, "Disable checking the aspect ratio for wallpaper suitability.")
+	flags.BoolVarP(&aratio, "allow-all-sizes", "r", false, "Disable checking the aspect ratio for wallpaper suitability.")
 	flags.BoolVarP(&refresh, "refresh", "R", false, "Refreshes the local post cache from Reddit.")
 
 	flags.Parse(os.Args[1:])
